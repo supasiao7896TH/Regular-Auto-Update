@@ -1575,10 +1575,12 @@ const UI_RENDERER = (() => {
   async function deleteTask(taskId) {
     if (!confirm('ยืนยันลบรายการงานนี้?')) return;
     const state = STATE_STORE.getState();
-    const tasks = state.tasks.filter(t => t.id !== taskId);
+    let tasks = state.tasks.filter(t => t.id !== taskId);
+    tasks = renumberTasks(tasks);
     STATE_STORE.setState({ tasks });
     await STORAGE_ENGINE.saveTasks(tasks);
-    showTaskManager();
+    closeModal();
+    APP_CORE.generate();
     showToast('ลบงานเรียบร้อยแล้ว', 'success');
   }
 
@@ -1623,7 +1625,7 @@ const UI_RENDERER = (() => {
   return {
     renderHeader, renderBody, toggleDay,
     editLastDate, saveLastDate, updateAnchorPreview, toggleScheduleMode, updateCyclePreview,
-    showTaskManager, showAddTask, updateFreqUI, updateAddAnchorPreview, toggleNewSectionInput,
+    showTaskManager, showAddTask, showAddTaskInSection, updateFreqUI, updateAddAnchorPreview, toggleNewSectionInput,
     confirmAddTask, deleteTask,
     closeModal, showToast, updateStats
   };
@@ -1778,15 +1780,31 @@ const APP_CORE = (() => {
     updateMonthDisplay();
   }
 
-  function generate() {
+  async function generate() {
     const state = STATE_STORE.getState();
     const { year, month, tasks } = state;
     const days = FREQ_CALC.getDaysInMonth(year, month);
 
-    // Calculate schedule for each task
-    const schedule = {};
+    // Calculate base schedule for each task
+    const baseSchedule = {};
     tasks.forEach(task => {
-      schedule[task.id] = FREQ_CALC.calcScheduledDays(task, year, month);
+      baseSchedule[task.id] = FREQ_CALC.calcScheduledDays(task, year, month);
+    });
+
+    // Load and apply overrides
+    let overrides = {};
+    try {
+      overrides = await STORAGE_ENGINE.loadScheduleOverrides(year, month);
+    } catch(e) {
+      DEBUG_MODULE.log('WARN', 'Could not load overrides', e);
+    }
+
+    // Merge: use override if it exists for a task
+    const schedule = { ...baseSchedule };
+    Object.keys(overrides).forEach(taskId => {
+      if (schedule.hasOwnProperty(taskId)) {
+        schedule[taskId] = overrides[taskId];
+      }
     });
 
     STATE_STORE.setState({ generatedSchedule: schedule });
@@ -2047,7 +2065,7 @@ const APP_CORE = (() => {
       document.getElementById('statusText').textContent = 'Offline Ready';
 
       // Auto-generate for current month
-      generate();
+      await generate();
 
     } catch (e) {
       DEBUG_MODULE.log('ERROR', 'Init failed', e);
