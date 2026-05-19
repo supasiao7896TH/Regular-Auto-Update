@@ -193,6 +193,19 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
         จัดการงาน
       </button>
+      <div style="width:1px;height:28px;background:var(--border)"></div>
+      <button onclick="EXPORT_ENGINE.exportJSON()" class="btn btn-ghost" data-tip="ดาวน์โหลดข้อมูลเป็น JSON">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export JSON
+      </button>
+      <button onclick="EXPORT_ENGINE.importJSON()" class="btn btn-ghost" data-tip="นำเข้าข้อมูลจาก JSON">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Import JSON
+      </button>
+      <button onclick="EXPORT_ENGINE.saveStandaloneHTML()" class="btn btn-primary" style="background:#0F766E" data-tip="บันทึก HTML พร้อมข้อมูลสำหรับแชร์">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        บันทึกพร้อมข้อมูล
+      </button>
     </div>
   </div>
 
@@ -451,10 +464,43 @@ const STORAGE_ENGINE = (() => {
     });
   }
 
+  async function getAllOverrides() {
+    const all = await getAll('scheduleOverrides');
+    const map = {};
+    all.forEach(item => { map[item.key] = item.overrides; });
+    return map;
+  }
+
   async function loadTasks() {
+    // Check for embedded data (from "Save Standalone HTML") on first open
+    if (window.__GCM_EMBEDDED__) {
+      const embedded = window.__GCM_EMBEDDED__;
+      window.__GCM_EMBEDDED__ = null; // consume once
+
+      const existing = await getAll('tasks');
+      if (existing.length === 0) {
+        // Fresh machine — seed from embedded data
+        if (embedded.tasks && embedded.tasks.length > 0) {
+          await putAll('tasks', embedded.tasks);
+          if (embedded.scheduleOverrides) {
+            for (const [key, overrides] of Object.entries(embedded.scheduleOverrides)) {
+              await new Promise((res, rej) => {
+                const tx = db.transaction('scheduleOverrides', 'readwrite');
+                tx.objectStore('scheduleOverrides').put({ key, overrides });
+                tx.oncomplete = () => res();
+                tx.onerror = () => rej(tx.error);
+              });
+            }
+          }
+          return embedded.tasks;
+        }
+      }
+      // If IndexedDB already has data, use it (don't overwrite user's changes)
+      if (existing.length > 0) return existing;
+    }
+
     const tasks = await getAll('tasks');
     if (tasks.length === 0) {
-      // First run — seed default tasks
       await putAll('tasks', APP_CONFIG.DEFAULT_TASKS);
       return APP_CONFIG.DEFAULT_TASKS;
     }
@@ -468,7 +514,7 @@ const STORAGE_ENGINE = (() => {
     return map;
   }
 
-  return { open, loadTasks, saveTasks, saveScheduleOverrides, loadScheduleOverrides, put, del, getSettings };
+  return { open, loadTasks, saveTasks, saveScheduleOverrides, loadScheduleOverrides, getAllOverrides, put, del, getSettings };
 })();
 
 // ============================================================
@@ -1751,7 +1797,100 @@ const EXPORT_ENGINE = (() => {
     return filename;
   }
 
-  return { exportExcel };
+  async function exportJSON() {
+    const state = STATE_STORE.getState();
+    const tasks = state.tasks;
+    const allOverrides = await STORAGE_ENGINE.getAllOverrides();
+    const data = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      tasks,
+      scheduleOverrides: allOverrides
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `GCM_Schedule_backup_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    UI_RENDERER.showToast('Export JSON สำเร็จ ✅', 'success');
+  }
+
+  function importJSON() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        if (!data.tasks || !Array.isArray(data.tasks)) {
+          UI_RENDERER.showToast('ไฟล์ไม่ถูกต้อง: ไม่พบ tasks', 'error');
+          return;
+        }
+        await STORAGE_ENGINE.saveTasks(data.tasks);
+        STATE_STORE.setState({ tasks: data.tasks });
+        if (data.scheduleOverrides && typeof data.scheduleOverrides === 'object') {
+          for (const [key, overrides] of Object.entries(data.scheduleOverrides)) {
+            const parts = key.split('-');
+            const year = parseInt(parts[0]);
+            const month = parseInt(parts[1]);
+            await STORAGE_ENGINE.saveScheduleOverrides(year, month, overrides);
+          }
+        }
+        await APP_CORE.generate();
+        UI_RENDERER.showToast(`นำเข้าข้อมูลสำเร็จ ✅ (${data.tasks.length} รายการ)`, 'success');
+      } catch (err) {
+        DEBUG_MODULE.log('ERROR', 'Import JSON failed', err);
+        UI_RENDERER.showToast('นำเข้าไม่สำเร็จ: ' + err.message, 'error');
+      }
+    };
+    document.body.appendChild(input);
+    input.click();
+    document.body.removeChild(input);
+  }
+
+  async function saveStandaloneHTML() {
+    try {
+      const state = STATE_STORE.getState();
+      const tasks = state.tasks;
+      const allOverrides = await STORAGE_ENGINE.getAllOverrides();
+
+      const embeddedData = { tasks, scheduleOverrides: allOverrides };
+
+      // Get current page HTML
+      let html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+      // Remove any previously injected embedded-data script
+      html = html.replace(/<script id="gcm-embedded-data">[\s\S]*?<\/script>\s*/g, '');
+
+      // Inject new embedded data script just before </head>
+      const dataScript = `<script id="gcm-embedded-data">window.__GCM_EMBEDDED__=${JSON.stringify(embeddedData)};<\/script>\n`;
+      html = html.replace('</head>', dataScript + '</head>');
+
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const monthName = APP_CONFIG.MONTH_EN[state.month];
+      a.download = `GCM_Schedule_${monthName}_${state.year}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      UI_RENDERER.showToast('บันทึก HTML พร้อมข้อมูลสำเร็จ ✅', 'success');
+    } catch (err) {
+      DEBUG_MODULE.log('ERROR', 'Save standalone HTML failed', err);
+      UI_RENDERER.showToast('บันทึกไม่สำเร็จ: ' + err.message, 'error');
+    }
+  }
+
+  return { exportExcel, exportJSON, importJSON, saveStandaloneHTML };
 })();
 
 // ============================================================
