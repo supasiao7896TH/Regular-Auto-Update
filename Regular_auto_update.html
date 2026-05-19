@@ -693,20 +693,6 @@ const UI_RENDERER = (() => {
 
   function renderHeader(year, month, days) {
     const head = document.getElementById('tableHead');
-    const dayRow1 = [];
-    const dayRow2 = [];
-
-    dayRow1.push('<th rowspan="2" style="min-width:36px">No.</th>');
-    dayRow1.push('<th rowspan="2" style="min-width:200px;text-align:left;padding-left:10px">งาน (Work)</th>');
-    dayRow1.push('<th rowspan="2" style="min-width:70px">Time/Shift</th>');
-    dayRow1.push('<th rowspan="2" style="min-width:120px">Frequency</th>');
-    dayRow1.push('<th rowspan="2" style="min-width:100px">Last Date</th>');
-    dayRow1.push(`<th colspan="${days}" style="background:#154378">${APP_CONFIG.MONTH_EN[month]} ${year}</th>`);
-
-    for (let d = 1; d <= days; d++) {
-      const cls = getDayClass(year, month, d);
-      dayRow2.push(`<th class="${cls}" style="min-width:28px;width:28px;padding:4px 2px">${d}</th>`);
-    }
 
     head.innerHTML = `
       <tr>
@@ -714,7 +700,6 @@ const UI_RENDERER = (() => {
         <th rowspan="3" style="min-width:200px;text-align:left;padding-left:10px">งาน (Work)</th>
         <th rowspan="3" style="min-width:70px">Time/Shift</th>
         <th rowspan="3" style="min-width:120px">Frequency</th>
-        <th rowspan="3" style="min-width:100px">Last Date</th>
         <th colspan="${days}" style="background:#154378;text-align:center">${APP_CONFIG.MONTH_EN[month]} ${year}</th>
         <th rowspan="3" style="min-width:70px;position:sticky;right:0;z-index:11">จัดการ</th>
       </tr>
@@ -740,13 +725,12 @@ const UI_RENDERER = (() => {
 
     sections.forEach(section => {
       // Section header
-      html += `<tr class="section-header"><td colspan="${days + 6}">${section}</td></tr>`;
+      html += `<tr class="section-header"><td colspan="${days + 5}">${section}</td></tr>`;
       const sectionTasks = tasks.filter(t => t.section === section);
 
       sectionTasks.forEach(task => {
         const sched = schedule[task.id] || [];
         const noText = task.no !== null ? task.no : '';
-        const lastDateVal = task.lastDate || '';
 
         let daysCells = '';
         if (task.scheduleNote) {
@@ -769,21 +753,14 @@ const UI_RENDERER = (() => {
           }
         }
 
-        // Last date display
-        const lastDateDisplay = lastDateVal
-          ? `<span style="font-size:11px;color:var(--text2)">${lastDateVal}</span>
-             <button onclick="UI_RENDERER.editLastDate('${task.id}')" style="background:none;border:none;cursor:pointer;color:var(--amber);font-size:14px;padding:0 4px" title="แก้ไข Last Date">✏️</button>`
-          : `<button onclick="UI_RENDERER.editLastDate('${task.id}')" class="btn btn-ghost" style="padding:2px 8px;font-size:11px">+ ตั้งค่า</button>`;
-
         html += `<tr id="row-${task.id}">
           <td style="text-align:center;font-weight:600;color:var(--navy)">${noText}</td>
           <td style="padding-left:10px;font-size:12px">${escapeHtml(task.name)}</td>
           <td style="text-align:center;font-size:11px;color:var(--text2)">${escapeHtml(task.shift)}</td>
           <td style="font-size:11px;color:var(--text2)">${escapeHtml(task.freqLabel)}</td>
-          <td style="text-align:center">${lastDateDisplay}</td>
           ${daysCells}
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editLastDate('${task.id}')"
+            <button onclick="UI_RENDERER.editTask('${task.id}')"
               style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
             <button onclick="UI_RENDERER.deleteTask('${task.id}')"
               style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="ลบ">🗑️</button>
@@ -793,7 +770,7 @@ const UI_RENDERER = (() => {
 
       // Add task button row for this section
       html += `<tr>
-        <td colspan="${days + 6}" style="padding:4px 8px;background:var(--surface2)">
+        <td colspan="${days + 5}" style="padding:4px 8px;background:var(--surface2)">
           <button onclick="UI_RENDERER.showAddTaskInSection('${escapeHtml(section)}')"
             style="background:none;border:1px dashed var(--border);border-radius:8px;cursor:pointer;color:var(--text2);font-size:12px;padding:4px 12px;width:100%">
             + เพิ่มงานใน ${escapeHtml(section)}
@@ -820,6 +797,320 @@ const UI_RENDERER = (() => {
     const days = FREQ_CALC.getDaysInMonth(year, month);
     renderBody(tasks, newSchedule, year, month, days);
     STORAGE_ENGINE.saveScheduleOverrides(year, month, newSchedule).catch(e => DEBUG_MODULE.log('ERROR', 'Failed to save overrides', e));
+  }
+
+  function editTask(taskId) {
+    const state = STATE_STORE.getState();
+    const task = state.tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const sections = [...new Set(state.tasks.map(t => t.section))];
+    const sectionOpts = sections.map(s =>
+      `<option value="${escapeHtml(s)}"${s === task.section ? ' selected' : ''}>${escapeHtml(s)}</option>`
+    ).join('');
+
+    const freqTypes = [
+      ['daily','ทุกวัน (daily)'],['days','ทุก N วัน'],['weekly','ทุกสัปดาห์'],
+      ['biweekly','2 ครั้ง/สัปดาห์'],['monthly','เดือนละครั้ง'],['bimonthly','2 ครั้ง/เดือน'],
+      ['quarterly','ทุก 3 เดือน'],['biannual','ทุก 6 เดือน'],
+      ['dcs','ตาม DCS (ไม่ Auto)'],['shift','ทุก Shift'],['special','พิเศษ']
+    ];
+    const freqTypeOpts = freqTypes.map(([v,l]) =>
+      `<option value="${v}"${v === task.freqType ? ' selected' : ''}>${l}</option>`
+    ).join('');
+
+    const noVal = task.no !== null ? task.no : '';
+    const modal = document.getElementById('modalContainer');
+    modal.innerHTML = `
+      <div class="modal-backdrop" onclick="if(event.target===this)UI_RENDERER.closeModal()">
+        <div class="modal slide-up" style="max-width:560px">
+          <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:16px">แก้ไขรายการงาน</h3>
+          <div class="flex flex-col gap-3">
+            <div>
+              <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">ชื่องาน *</label>
+              <input type="text" id="editName" value="${escapeHtml(task.name)}" placeholder="ชื่องาน"/>
+            </div>
+            <div style="display:grid;grid-template-columns:72px 1fr 1fr;gap:12px">
+              <div>
+                <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">No.</label>
+                <input type="number" id="editNo" min="1" value="${noVal}" placeholder="—" style="text-align:center"/>
+              </div>
+              <div>
+                <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">Section *</label>
+                <select id="editSection">
+                  ${sectionOpts}
+                </select>
+              </div>
+              <div>
+                <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">Time/Shift</label>
+                <input type="text" id="editShift" value="${escapeHtml(task.shift)}" placeholder="เช่น 13:00 หรือ Night"/>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">ประเภท Frequency *</label>
+                <select id="editFreqType" onchange="UI_RENDERER.updateEditFreqUI()">
+                  ${freqTypeOpts}
+                </select>
+              </div>
+              <div id="editFreqValueBox" style="display:${task.freqType === 'days' ? 'block' : 'none'}">
+                <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">ทุกกี่วัน (N)</label>
+                <input type="number" id="editFreqValue" value="${task.freqValue || 1}" min="1"/>
+              </div>
+            </div>
+            <div id="editScheduleAnchorBox"></div>
+            <div>
+              <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">Last Date (วันที่ทำล่าสุด)</label>
+              <input type="date" id="editLastDate" value="${task.lastDate || ''}"/>
+            </div>
+            <div>
+              <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">Schedule Note <span style="font-weight:400;color:var(--text2)">(ข้อความแสดงแทนตาราง — ไม่บังคับ)</span></label>
+              <input type="text" id="editScheduleNote" value="${escapeHtml(task.scheduleNote || '')}" placeholder="เช่น Follow operation time 25 Day at DCS"/>
+            </div>
+          </div>
+          <div class="flex gap-3 justify-end mt-6">
+            <button onclick="UI_RENDERER.closeModal()" class="btn btn-ghost">ยกเลิก</button>
+            <button onclick="UI_RENDERER.confirmEditTask('${taskId}')" class="btn btn-primary">บันทึก</button>
+          </div>
+        </div>
+      </div>`;
+
+    // Pre-fill anchor UI based on current freqType
+    _fillEditAnchorUI(task);
+  }
+
+  function _fillEditAnchorUI(task) {
+    const DAY_TH = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
+    const NTH_LBL = ['','1 (ต้นเดือน)','2','3 (กลางเดือน)','4','Mid (~15)'];
+    const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const box = document.getElementById('editScheduleAnchorBox');
+    if (!box) return;
+    const type = task.freqType;
+
+    if (type === 'weekly') {
+      const anchor = task.scheduleAnchor != null ? task.scheduleAnchor : 1;
+      const opts = DAY_TH.map((d,i) => `<option value="${i}"${i===anchor?' selected':''}>${d}</option>`).join('');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">วันในสัปดาห์</label>
+        <select id="editScheduleAnchor" style="margin-bottom:4px">${opts}</select>`;
+
+    } else if (type === 'biweekly') {
+      const d1 = task.scheduleAnchor != null ? task.scheduleAnchor : 1;
+      const d2 = task.scheduleAnchor2 != null ? task.scheduleAnchor2 : 4;
+      const o1 = DAY_TH.map((d,i) => `<option value="${i}"${i===d1?' selected':''}>${d}</option>`).join('');
+      const o2 = DAY_TH.map((d,i) => `<option value="${i}"${i===d2?' selected':''}>${d}</option>`).join('');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px">วันที่ 1</label>
+            <select id="editScheduleAnchor">${o1}</select></div>
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px">วันที่ 2</label>
+            <select id="editScheduleAnchor2">${o2}</select></div>
+        </div>`;
+
+    } else if (type === 'monthly' || type === 'quarterly') {
+      const isNth = task.scheduleMode === 'nthWeekday';
+      const anchorDay = (!isNth && task.scheduleAnchor != null) ? task.scheduleAnchor : 1;
+      const anchorDow = (isNth && task.scheduleAnchor != null) ? task.scheduleAnchor : 0;
+      const nth = task.scheduleAnchorNth != null ? task.scheduleAnchorNth : 1;
+      const nthOpts = [1,2,3,4,5,0].map(v => `<option value="${v}"${v===nth?' selected':''}>${NTH_LBL[v]||'Last'}</option>`).join('');
+      const dowOpts = DAY_TH.map((d,i) => `<option value="${i}"${i===anchorDow?' selected':''}>${d}</option>`).join('');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div style="display:flex;gap:16px;margin-bottom:8px">
+          <label style="cursor:pointer;display:flex;align-items:center;gap:6px;font-size:13px">
+            <input type="radio" name="editSchedMode" value="date" ${!isNth?'checked':''}
+              onchange="document.getElementById('editDateAnchorSec').style.display='block';document.getElementById('editNthSec').style.display='none'"> วันที่คงที่
+          </label>
+          <label style="cursor:pointer;display:flex;align-items:center;gap:6px;font-size:13px">
+            <input type="radio" name="editSchedMode" value="nthWeekday" ${isNth?'checked':''}
+              onchange="document.getElementById('editDateAnchorSec').style.display='none';document.getElementById('editNthSec').style.display='flex'"> วันในสัปดาห์
+          </label>
+        </div>
+        <div id="editDateAnchorSec" style="display:${!isNth?'block':'none'}">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">วันที่ในเดือน (1–31)</label>
+          <input type="number" id="editAnchorDate" min="1" max="31" value="${anchorDay}" style="width:90px"/>
+        </div>
+        <div id="editNthSec" style="display:${isNth?'flex':'none'};gap:12px;align-items:flex-end;flex-wrap:wrap">
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px">สัปดาห์ที่</label>
+            <select id="editAnchorNth">${nthOpts}</select></div>
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px">วัน</label>
+            <select id="editAnchorDow">${dowOpts}</select></div>
+        </div>`;
+
+    } else if (type === 'bimonthly') {
+      const isNth = task.scheduleMode === 'nthWeekday';
+      const anchorDay = (!isNth && task.scheduleAnchor != null) ? task.scheduleAnchor : 1;
+      const biDow  = (isNth && task.scheduleAnchor != null) ? task.scheduleAnchor : 6;
+      const biNth1 = task.scheduleAnchorNth  != null ? task.scheduleAnchorNth  : 1;
+      const biNth2 = task.scheduleAnchorNth2 != null ? task.scheduleAnchorNth2 : 3;
+      const dowOpts  = DAY_TH.map((d,i) => `<option value="${i}"${i===biDow?' selected':''}>${d}</option>`).join('');
+      const nth1Opts = [1,2,3,4,5,0].map(v => `<option value="${v}"${v===biNth1?' selected':''}>${NTH_LBL[v]||'Last'}</option>`).join('');
+      const nth2Opts = [1,2,3,4,5,0].map(v => `<option value="${v}"${v===biNth2?' selected':''}>${NTH_LBL[v]||'Last'}</option>`).join('');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div style="display:flex;gap:16px;margin-bottom:8px">
+          <label style="cursor:pointer;display:flex;align-items:center;gap:6px;font-size:13px">
+            <input type="radio" name="editSchedMode" value="date" ${!isNth?'checked':''}
+              onchange="document.getElementById('editBiDateSec').style.display='block';document.getElementById('editBiNthSec').style.display='none'"> วันที่คงที่
+          </label>
+          <label style="cursor:pointer;display:flex;align-items:center;gap:6px;font-size:13px">
+            <input type="radio" name="editSchedMode" value="nthWeekday" ${isNth?'checked':''}
+              onchange="document.getElementById('editBiDateSec').style.display='none';document.getElementById('editBiNthSec').style.display='block'"> วันในสัปดาห์
+          </label>
+        </div>
+        <div id="editBiDateSec" style="display:${!isNth?'block':'none'}">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">วันที่ 1 ของรอบ (1–15)</label>
+          <input type="number" id="editScheduleAnchor" min="1" max="15" value="${anchorDay}" style="width:90px"/>
+        </div>
+        <div id="editBiNthSec" style="display:${isNth?'block':'none'}">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div><label style="font-size:11px;font-weight:600;display:block;margin-bottom:3px">วัน</label>
+              <select id="editBiDow">${dowOpts}</select></div>
+            <div><label style="font-size:11px;font-weight:600;display:block;margin-bottom:3px">สัปดาห์ที่ 1</label>
+              <select id="editBiNth1">${nth1Opts}</select></div>
+            <div><label style="font-size:11px;font-weight:600;display:block;margin-bottom:3px">สัปดาห์ที่ 2</label>
+              <select id="editBiNth2">${nth2Opts}</select></div>
+          </div>
+        </div>`;
+
+    } else if (type === 'biannual') {
+      let bm = task.scheduleBiannualMonths;
+      if (!bm && task.lastDate) { const lm = new Date(task.lastDate).getMonth(); bm = [lm, (lm+6)%12]; }
+      if (!bm) bm = [0, 6];
+      const isNth = task.scheduleMode === 'nthWeekday';
+      const anchorDay = (!isNth && task.scheduleAnchor != null) ? task.scheduleAnchor : 1;
+      const anchorDow = (isNth && task.scheduleAnchor != null) ? task.scheduleAnchor : 0;
+      const nth = task.scheduleAnchorNth != null ? task.scheduleAnchorNth : 1;
+      const mOpts1 = MONTH_NAMES.map((m,i) => `<option value="${i}"${i===bm[0]?' selected':''}>${m}</option>`).join('');
+      const mOpts2 = MONTH_NAMES.map((m,i) => `<option value="${i}"${i===bm[1]?' selected':''}>${m}</option>`).join('');
+      const nthOpts = [1,2,3,4,5,0].map(v => `<option value="${v}"${v===nth?' selected':''}>${NTH_LBL[v]||'Last'}</option>`).join('');
+      const dowOpts = DAY_TH.map((d,i) => `<option value="${i}"${i===anchorDow?' selected':''}>${d}</option>`).join('');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px">
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px">เดือนที่ 1</label>
+            <select id="editBiannualM1">${mOpts1}</select></div>
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:3px">เดือนที่ 2</label>
+            <select id="editBiannualM2">${mOpts2}</select></div>
+        </div>
+        <div style="display:flex;gap:14px;margin-bottom:8px">
+          <label style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px">
+            <input type="radio" name="editSchedMode" value="date" ${!isNth?'checked':''}
+              onchange="document.getElementById('editBaDateSec').style.display='block';document.getElementById('editBaNthSec').style.display='none'"> วันที่คงที่
+          </label>
+          <label style="cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px">
+            <input type="radio" name="editSchedMode" value="nthWeekday" ${isNth?'checked':''}
+              onchange="document.getElementById('editBaDateSec').style.display='none';document.getElementById('editBaNthSec').style.display='flex'"> วันในสัปดาห์
+          </label>
+        </div>
+        <div id="editBaDateSec" style="display:${!isNth?'block':'none'}">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">วันที่ในเดือน (1–31)</label>
+          <input type="number" id="editAnchorDate" min="1" max="31" value="${anchorDay}" style="width:90px"/>
+        </div>
+        <div id="editBaNthSec" style="display:${isNth?'flex':'none'};gap:10px;flex-wrap:wrap">
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px">สัปดาห์ที่</label>
+            <select id="editAnchorNth">${nthOpts}</select></div>
+          <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px">วัน</label>
+            <select id="editAnchorDow">${dowOpts}</select></div>
+        </div>`;
+    } else {
+      box.style.display = 'none';
+      box.innerHTML = '';
+    }
+  }
+
+  function updateEditFreqUI() {
+    const type = document.getElementById('editFreqType').value;
+    const freqValueBox = document.getElementById('editFreqValueBox');
+    if (freqValueBox) freqValueBox.style.display = type === 'days' ? 'block' : 'none';
+    // Build a minimal task stub to reuse _fillEditAnchorUI
+    const stub = { freqType: type, scheduleAnchor: null, scheduleAnchor2: null,
+      scheduleAnchorNth: null, scheduleAnchorNth2: null, scheduleMode: null,
+      scheduleBiannualMonths: null, lastDate: null };
+    _fillEditAnchorUI(stub);
+  }
+
+  async function confirmEditTask(taskId) {
+    const name = (document.getElementById('editName')?.value || '').trim();
+    if (!name) { showToast('กรุณากรอกชื่องาน', 'error'); return; }
+    const section = document.getElementById('editSection')?.value || '';
+    const shift = (document.getElementById('editShift')?.value || '').trim() || 'not fix';
+    const freqType = document.getElementById('editFreqType')?.value || 'days';
+    const freqValue = parseInt(document.getElementById('editFreqValue')?.value) || 1;
+    const lastDate = document.getElementById('editLastDate')?.value || null;
+    const scheduleNote = (document.getElementById('editScheduleNote')?.value || '').trim() || null;
+    const noRaw = parseInt(document.getElementById('editNo')?.value);
+    const no = isNaN(noRaw) ? null : noRaw;
+
+    const freqLabels = {
+      daily:'ทุกวัน', days:`1 time/${freqValue} days`, weekly:'1 time/week',
+      biweekly:'2 time/week', monthly:'1 time/month', bimonthly:'2 time/month',
+      quarterly:'1 time/3 months', biannual:'1 time/6 months',
+      dcs:'Follow DCS', shift:'1 time/shift', special:'พิเศษ'
+    };
+
+    const state = STATE_STORE.getState();
+    const task  = state.tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const updated = { ...task, name, section, shift, freqType, freqValue,
+      freqLabel: freqLabels[freqType] || freqType, lastDate, scheduleNote, no };
+
+    // Read anchor settings
+    if (freqType === 'weekly') {
+      updated.scheduleAnchor = parseInt(document.getElementById('editScheduleAnchor')?.value) ?? 1;
+    } else if (freqType === 'biweekly') {
+      updated.scheduleAnchor  = parseInt(document.getElementById('editScheduleAnchor')?.value)  ?? 1;
+      updated.scheduleAnchor2 = parseInt(document.getElementById('editScheduleAnchor2')?.value) ?? 4;
+    } else if (freqType === 'bimonthly') {
+      const modeEl = document.querySelector('input[name="editSchedMode"]:checked');
+      const mode   = modeEl ? modeEl.value : 'date';
+      updated.scheduleMode = mode;
+      if (mode === 'date') {
+        updated.scheduleAnchor     = parseInt(document.getElementById('editScheduleAnchor')?.value) ?? 1;
+        updated.scheduleAnchorNth  = null;
+        updated.scheduleAnchorNth2 = null;
+      } else {
+        updated.scheduleAnchor     = parseInt(document.getElementById('editBiDow')?.value)   ?? 6;
+        updated.scheduleAnchorNth  = parseInt(document.getElementById('editBiNth1')?.value)  ?? 1;
+        updated.scheduleAnchorNth2 = parseInt(document.getElementById('editBiNth2')?.value)  ?? 3;
+      }
+    } else if (freqType === 'biannual') {
+      const m1 = parseInt(document.getElementById('editBiannualM1')?.value) ?? 0;
+      const m2 = parseInt(document.getElementById('editBiannualM2')?.value) ?? 6;
+      updated.scheduleBiannualMonths = [m1, m2];
+      const modeEl = document.querySelector('input[name="editSchedMode"]:checked');
+      const mode   = modeEl ? modeEl.value : 'date';
+      updated.scheduleMode = mode;
+      if (mode === 'date') {
+        updated.scheduleAnchor    = parseInt(document.getElementById('editAnchorDate')?.value) || null;
+        updated.scheduleAnchorNth = null;
+      } else {
+        updated.scheduleAnchor    = parseInt(document.getElementById('editAnchorDow')?.value)  ?? 0;
+        updated.scheduleAnchorNth = parseInt(document.getElementById('editAnchorNth')?.value)  ?? 1;
+      }
+    } else if (['monthly','quarterly'].includes(freqType)) {
+      const modeEl = document.querySelector('input[name="editSchedMode"]:checked');
+      const mode   = modeEl ? modeEl.value : 'date';
+      updated.scheduleMode = mode;
+      if (mode === 'date') {
+        updated.scheduleAnchor    = parseInt(document.getElementById('editAnchorDate')?.value) || null;
+        updated.scheduleAnchorNth = null;
+      } else {
+        updated.scheduleAnchor    = parseInt(document.getElementById('editAnchorDow')?.value)  ?? 0;
+        updated.scheduleAnchorNth = parseInt(document.getElementById('editAnchorNth')?.value)  ?? 1;
+      }
+    }
+
+    let tasks = state.tasks.map(t => t.id === taskId ? updated : t);
+    tasks = renumberTasks(tasks);
+    STATE_STORE.setState({ tasks });
+    await STORAGE_ENGINE.saveTasks(tasks);
+    closeModal();
+    await APP_CORE.generate();
+    showToast('บันทึกเรียบร้อยแล้ว ✅', 'success');
   }
 
   function editLastDate(taskId) {
@@ -1217,7 +1508,7 @@ const UI_RENDERER = (() => {
                     <td style="padding:8px;text-align:center;font-size:10px;color:var(--text2)">${escapeHtml(t.freqLabel)}</td>
                     <td style="padding:8px;text-align:center;font-size:11px">${t.lastDate || '<span style="color:var(--text2)">-</span>'}</td>
                     <td style="padding:8px;text-align:center">
-                      <button onclick="UI_RENDERER.closeModal();UI_RENDERER.editLastDate('${t.id}')" class="btn btn-ghost" style="padding:4px 8px;font-size:11px">📅</button>
+                      <button onclick="UI_RENDERER.closeModal();UI_RENDERER.editTask('${t.id}')" class="btn btn-ghost" style="padding:4px 8px;font-size:11px">✏️</button>
                       <button onclick="UI_RENDERER.deleteTask('${t.id}')" class="btn btn-danger" style="padding:4px 8px;font-size:11px">🗑️</button>
                     </td>
                   </tr>`).join('')}
@@ -1670,7 +1961,8 @@ const UI_RENDERER = (() => {
 
   return {
     renderHeader, renderBody, toggleDay,
-    editLastDate, saveLastDate, updateAnchorPreview, toggleScheduleMode, updateCyclePreview,
+    editLastDate, editTask, updateEditFreqUI, confirmEditTask,
+    saveLastDate, updateAnchorPreview, toggleScheduleMode, updateCyclePreview,
     showTaskManager, showAddTask, showAddTaskInSection, updateFreqUI, updateAddAnchorPreview, toggleNewSectionInput,
     confirmAddTask, deleteTask,
     closeModal, showToast, updateStats
