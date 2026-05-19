@@ -5203,6 +5203,11 @@ const EXPORT_ENGINE = (() => {
       // Remove any previously injected embedded-data script
       html = html.replace(/<script id="gcm-embedded-data">[\s\S]*?<\/script>\s*/g, '');
 
+      // Remove Tailwind CDN play script — its CSS is already inlined by the browser
+      // in a <style> block captured by outerHTML. Re-loading the CDN in a saved file
+      // causes Tailwind to clear and rebuild styles, breaking the app on reopen.
+      html = html.replace(/<script[^>]*cdn\.tailwindcss\.com[^>]*><\/script>\s*/g, '');
+
       // Inject new embedded data script just before </head>
       const dataScript = `<script id="gcm-embedded-data">window.__GCM_EMBEDDED__=${JSON.stringify(embeddedData)};<\/script>\n`;
       html = html.replace('</head>', dataScript + '</head>');
