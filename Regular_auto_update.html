@@ -189,6 +189,10 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2-2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
         Print / PDF
       </button>
+      <button onclick="APP_CORE.savePDF()" class="btn btn-primary" style="background:#C0392B" data-tip="บันทึกเป็นไฟล์ PDF สำหรับส่งอีเมล">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 18 15 15"></polyline></svg>
+        บันทึก PDF
+      </button>
       <button onclick="UI_RENDERER.showTaskManager()" class="btn btn-amber">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
         จัดการงาน
@@ -5356,11 +5360,14 @@ const APP_CORE = (() => {
     DEBUG_MODULE.log('INFO', `Schedule generated for ${APP_CONFIG.MONTH_EN[month]} ${year}`, { taskCount: tasks.length });
   }
 
-  function printSchedule() {
+  // Builds the full A3 print document (returns the HTML string, or null if there
+  // is nothing to print). Shared by printSchedule() and savePDF() so both produce
+  // the exact same layout.
+  function buildPrintDoc() {
     const state = STATE_STORE.getState();
     if (!state.generatedSchedule) {
-      UI_RENDERER.showToast('กรุณากด Generate ก่อน Print', 'warning');
-      return;
+      UI_RENDERER.showToast('กรุณากด Generate ก่อน', 'warning');
+      return null;
     }
 
     const { tasks, generatedSchedule: schedule, year, month } = state;
@@ -5426,7 +5433,7 @@ const APP_CORE = (() => {
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Monthly Schedule — ${monthName} ${year}</title>
+<title>GCM_Schedule_${monthName}_${year}</title>
 <style>
   @page { size: A3 portrait; margin: 6mm 6mm 8mm 6mm; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -5536,13 +5543,35 @@ const APP_CORE = (() => {
 </body>
 </html>`;
 
+    return html;
+  }
+
+  // Opens the print document in a popup window. The document auto-triggers the
+  // browser's print dialog, where "Save as PDF" produces a PDF identical to print.
+  function openPrintWindow(html) {
     const win = window.open('', '_blank', 'width=900,height=700');
     if (!win) {
-      UI_RENDERER.showToast('กรุณาอนุญาต Popup เพื่อ Print', 'error');
-      return;
+      UI_RENDERER.showToast('กรุณาอนุญาต Popup', 'error');
+      return false;
     }
     win.document.write(html);
     win.document.close();
+    return true;
+  }
+
+  function printSchedule() {
+    const html = buildPrintDoc();
+    if (html) openPrintWindow(html);
+  }
+
+  // Same document as Print/PDF — guides the user to pick "Save as PDF" as the
+  // print destination so they get a PDF file to attach to email.
+  function savePDF() {
+    const html = buildPrintDoc();
+    if (!html) return;
+    if (openPrintWindow(html)) {
+      UI_RENDERER.showToast('ในหน้าต่างที่เปิดขึ้น เลือกปลายทางเป็น "Save as PDF / บันทึกเป็น PDF" แล้วกด Save', 'info');
+    }
   }
 
   function exportExcel() {
@@ -5612,7 +5641,7 @@ const APP_CORE = (() => {
     }
   }
 
-  return { init, prevMonth, nextMonth, generate, exportExcel, printSchedule, toggleDark };
+  return { init, prevMonth, nextMonth, generate, exportExcel, printSchedule, savePDF, toggleDark };
 })();
 
 // ============================================================
