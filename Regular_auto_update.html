@@ -5602,6 +5602,10 @@ const APP_CORE = (() => {
 // ============================================================
 // BOOT
 // ============================================================
+window.APP_CORE = APP_CORE;
+window.UI_RENDERER = UI_RENDERER;
+window.EXPORT_ENGINE = EXPORT_ENGINE;
+
 document.addEventListener('DOMContentLoaded', () => {
   APP_CORE.init();
 });
