@@ -3457,6 +3457,12 @@ const STORAGE_ENGINE = (() => {
   }
 
   function getAll(store) {
+    if (_isFile) {
+      if (store === 'tasks') return Promise.resolve(_mem.tasks);
+      if (store === 'settings') return Promise.resolve(Object.entries(_mem.settings).map(([key, value]) => ({ key, value })));
+      if (store === 'scheduleOverrides') return Promise.resolve(Object.entries(_mem.overrides).map(([key, overrides]) => ({ key, overrides })));
+      return Promise.resolve([]);
+    }
     return new Promise((res, rej) => {
       const tx = db.transaction(store, 'readonly');
       const req = tx.objectStore(store).getAll();
@@ -3466,6 +3472,10 @@ const STORAGE_ENGINE = (() => {
   }
 
   function putAll(store, items) {
+    if (_isFile) {
+      if (store === 'tasks') _mem.tasks = items;
+      return Promise.resolve();
+    }
     return new Promise((res, rej) => {
       const tx = db.transaction(store, 'readwrite');
       const os = tx.objectStore(store);
@@ -3480,6 +3490,10 @@ const STORAGE_ENGINE = (() => {
   }
 
   function del(store, key) {
+    if (_isFile) {
+      if (store === 'tasks') _mem.tasks = _mem.tasks.filter(t => t.id !== key);
+      return Promise.resolve();
+    }
     return new Promise((res, rej) => {
       const tx = db.transaction(store, 'readwrite');
       tx.objectStore(store).delete(key);
@@ -3571,6 +3585,7 @@ const STORAGE_ENGINE = (() => {
   }
 
   async function getSettings() {
+    if (_isFile) return _mem.settings;
     const all = await getAll('settings');
     const map = {};
     all.forEach(s => { map[s.key] = s.value; });
