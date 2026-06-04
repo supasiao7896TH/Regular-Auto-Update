@@ -5236,8 +5236,19 @@ const EXPORT_ENGINE = (() => {
       // Get current page HTML
       let html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
-      // Remove any previously injected embedded-data script
-      html = html.replace(/<script id="gcm-embedded-data">[\s\S]*?<\/script>\s*/g, '');
+      // Build the embedded-data script tag from pieces so the opening tag token
+      // (script element carrying id=EMB_ID) never appears contiguously in THIS source.
+      // If it did, the cleanup RegExp below would also match this occurrence and,
+      // because the next real closing script tag is this script own one, it would
+      // delete the entire remainder of the app (APP_CORE, boot code, …) from every
+      // saved copy — leaving all buttons dead. (This was the original bug.)
+      const EMB_ID = 'gcm-embedded-data';
+      const OPEN_TAG = '<' + 'script id="' + EMB_ID + '">';
+      const CLOSE_TAG = '<' + '/script>';
+
+      // Remove any previously injected embedded-data script (re-save case).
+      const cleanupRe = new RegExp(OPEN_TAG + '[\\s\\S]*?' + CLOSE_TAG + '\\s*', 'g');
+      html = html.replace(cleanupRe, '');
 
       // Remove Tailwind CDN play script — its CSS is already inlined by the browser
       // in a <style> block captured by outerHTML. Re-loading the CDN in a saved file
@@ -5246,9 +5257,14 @@ const EXPORT_ENGINE = (() => {
       html = html.replace(/<script[^>]*cdn\.sheetjs\.com[^>]*><\/script>\s*/g, '');
       html = html.replace(/<script[^>]*xlsx[^>]*><\/script>\s*/g, '');
 
-      // Inject new embedded data script just before </head>
-      const dataScript = `<script id="gcm-embedded-data">window.__GCM_EMBEDDED__=${JSON.stringify(embeddedData)};<\/script>\n`;
-      html = html.replace('</head>', dataScript + '</head>');
+      // Escape '<' as < so nothing in the data (e.g. a literal "</scr"+"ipt>")
+      // can break out of the tag. JSON.parse turns < back into '<' at load.
+      const payload = JSON.stringify(embeddedData).replace(/</g, '\\u003c');
+      const dataScript = OPEN_TAG + 'window.__GCM_EMBEDDED__=' + payload + ';' + CLOSE_TAG + '\n';
+
+      // Inject just before </head>. A replacer function avoids '$' in the data being
+      // treated as a special replacement pattern.
+      html = html.replace('</head>', () => dataScript + '</head>');
 
       const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
