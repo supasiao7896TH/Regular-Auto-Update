@@ -3719,6 +3719,15 @@ const FREQ_CALC = (() => {
       return days;
     }
 
+    // Fixed set of day-of-month anchors (e.g. "3 times/month" on days 12, 22, 31) —
+    // days outside the current month's length are simply skipped, same as bimonthly's 2nd anchor
+    if (freqType === 'customDays') {
+      const anchors = Array.isArray(task.scheduleCustomDays) ? task.scheduleCustomDays : [];
+      const custom = [];
+      anchors.forEach(d => { if (d >= 1 && d <= daysInMonth) custom.push(d); });
+      return [...new Set(custom)].sort((a, b) => a - b);
+    }
+
     // 1x per 3 months → show only when current month is a due month
     if (freqType === 'quarterly') {
       if (!last) return [];
@@ -3945,6 +3954,7 @@ const UI_RENDERER = (() => {
     const freqTypes = [
       ['daily','ทุกวัน (daily)'],['days','ทุก N วัน'],['weekly','ทุกสัปดาห์'],
       ['biweekly','2 ครั้ง/สัปดาห์'],['monthly','เดือนละครั้ง'],['bimonthly','2 ครั้ง/เดือน'],
+      ['customDays','กำหนดวันเอง (เลือกวันที่ในเดือน)'],
       ['quarterly','ทุก 3 เดือน'],['biannual','ทุก 6 เดือน'],
       ['dcs','ตาม DCS (ไม่ Auto)'],['shift','ทุก Shift'],['special','พิเศษ']
     ];
@@ -4148,6 +4158,15 @@ const UI_RENDERER = (() => {
           <div><label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px">วัน</label>
             <select id="editAnchorDow">${dowOpts}</select></div>
         </div>`;
+
+    } else if (type === 'customDays') {
+      const daysStr = Array.isArray(task.scheduleCustomDays) ? task.scheduleCustomDays.join(',') : '';
+      box.style.display = 'block';
+      box.innerHTML = `
+        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">วันที่ในเดือน (คั่นด้วยคอมมา เช่น 12,22,31)</label>
+        <input type="text" id="editScheduleCustomDays" value="${escapeHtml(daysStr)}" placeholder="เช่น 12,22,31" style="width:100%"/>
+        <div style="font-size:11px;color:var(--text2);margin-top:4px">ถ้าเดือนนั้นไม่มีวันที่ระบุ (เช่น 31 ในเดือนที่มี 30 วัน) จะไม่ขึ้นเครื่องหมายวันนั้น</div>`;
+
     } else {
       box.style.display = 'none';
       box.innerHTML = '';
@@ -4180,7 +4199,7 @@ const UI_RENDERER = (() => {
     const freqLabels = {
       daily:'ทุกวัน', days:`1 time/${freqValue} days`, weekly:'1 time/week',
       biweekly:'2 time/week', monthly:'1 time/month', bimonthly:'2 time/month',
-      quarterly:'1 time/3 months', biannual:'1 time/6 months',
+      customDays:'กำหนดวันเอง', quarterly:'1 time/3 months', biannual:'1 time/6 months',
       dcs:'Follow DCS', shift:'1 time/shift', special:'พิเศษ'
     };
 
@@ -4235,6 +4254,10 @@ const UI_RENDERER = (() => {
         updated.scheduleAnchor    = parseInt(document.getElementById('editAnchorDow')?.value)  ?? 0;
         updated.scheduleAnchorNth = parseInt(document.getElementById('editAnchorNth')?.value)  ?? 1;
       }
+    } else if (freqType === 'customDays') {
+      const raw = document.getElementById('editScheduleCustomDays')?.value || '';
+      updated.scheduleCustomDays = raw.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n) && n >= 1 && n <= 31);
+      if (updated.scheduleCustomDays.length === 0) { showToast('กรุณาระบุวันที่อย่างน้อย 1 วัน', 'error'); return; }
     }
 
     let tasks = state.tasks.map(t => t.id === taskId ? updated : t);
@@ -4446,7 +4469,7 @@ const UI_RENDERER = (() => {
     }
 
     const modal = document.getElementById('modalContainer');
-    const isComplex = ['monthly','quarterly','biannual','bimonthly','biweekly'].includes(freqType);
+    const isComplex = ['monthly','quarterly','biannual','bimonthly','biweekly','customDays'].includes(freqType);
     modal.innerHTML = `
       <div class="modal-backdrop" onclick="if(event.target===this)UI_RENDERER.closeModal()">
         <div class="modal slide-up" style="${isComplex ? 'max-width:500px' : ''}">
@@ -4697,6 +4720,7 @@ const UI_RENDERER = (() => {
                   <option value="biweekly">2 ครั้ง/สัปดาห์</option>
                   <option value="monthly">เดือนละครั้ง</option>
                   <option value="bimonthly">2 ครั้ง/เดือน</option>
+                  <option value="customDays">กำหนดวันเอง (เลือกวันที่ในเดือน)</option>
                   <option value="quarterly">ทุก 3 เดือน</option>
                   <option value="biannual">ทุก 6 เดือน</option>
                   <option value="dcs">ตาม DCS (ไม่ Auto)</option>
@@ -4883,6 +4907,12 @@ const UI_RENDERER = (() => {
         </div>
         <div id="addAnchorPreview" style="font-size:12px;color:var(--success);font-weight:600;margin-top:6px">→ ทำทุกวันที่ 1</div>
         ${cycleNote}`;
+    } else if (type === 'customDays') {
+      scheduleBox.style.display = 'block';
+      scheduleBox.innerHTML = `
+        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">วันที่ในเดือน (คั่นด้วยคอมมา เช่น 12,22,31)</label>
+        <input type="text" id="newScheduleCustomDays" placeholder="เช่น 12,22,31" style="width:100%"/>
+        <div style="font-size:11px;color:var(--text2);margin-top:4px">ถ้าเดือนนั้นไม่มีวันที่ระบุ (เช่น 31 ในเดือนที่มี 30 วัน) จะไม่ขึ้นเครื่องหมายวันนั้น</div>`;
     } else {
       scheduleBox.style.display = 'none';
       scheduleBox.innerHTML = '';
@@ -4983,9 +5013,10 @@ const UI_RENDERER = (() => {
     const freqValue = parseInt(document.getElementById('newFreqValue')?.value) || 1;
     const lastDate = document.getElementById('newLastDate').value || null;
     const scheduleNote = (document.getElementById('newScheduleNote')?.value || '').trim() || null;
-    const freqLabels = { daily:'ทุกวัน', days:`1 time/${freqValue} days`, weekly:'1 time/week', biweekly:'2 time/week', monthly:'1 time/month', bimonthly:'2 time/month', quarterly:'1 time/3 months', biannual:'1 time/6 months', dcs:'Follow DCS', shift:'1 time/shift', special:'พิเศษ' };
+    const freqLabels = { daily:'ทุกวัน', days:`1 time/${freqValue} days`, weekly:'1 time/week', biweekly:'2 time/week', monthly:'1 time/month', bimonthly:'2 time/month', customDays:'กำหนดวันเอง', quarterly:'1 time/3 months', biannual:'1 time/6 months', dcs:'Follow DCS', shift:'1 time/shift', special:'พิเศษ' };
     let scheduleAnchor = null, scheduleMode = null, scheduleAnchorNth = null;
     let scheduleAnchor2 = null, scheduleAnchorNth2 = null, scheduleBiannualMonths = null;
+    let scheduleCustomDays = null;
     if (freqType === 'biweekly') {
       scheduleAnchor  = parseInt(document.getElementById('newScheduleAnchor')?.value)  ?? 1;
       scheduleAnchor2 = parseInt(document.getElementById('newScheduleAnchor2')?.value) ?? 4;
@@ -5020,6 +5051,10 @@ const UI_RENDERER = (() => {
       } else {
         scheduleAnchor = parseInt(document.getElementById('newScheduleAnchor')?.value) || null;
       }
+    } else if (freqType === 'customDays') {
+      const raw = document.getElementById('newScheduleCustomDays')?.value || '';
+      scheduleCustomDays = raw.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n) && n >= 1 && n <= 31);
+      if (scheduleCustomDays.length === 0) { showToast('กรุณาระบุวันที่อย่างน้อย 1 วัน', 'error'); return; }
     } else {
       scheduleAnchor = parseInt(document.getElementById('newScheduleAnchor')?.value) ?? null;
     }
@@ -5030,7 +5065,7 @@ const UI_RENDERER = (() => {
       freqType, freqValue,
       freqLabel: freqLabels[freqType] || freqType,
       lastDate, scheduleAnchor, scheduleMode, scheduleAnchorNth,
-      scheduleAnchor2, scheduleAnchorNth2, scheduleBiannualMonths, scheduleNote
+      scheduleAnchor2, scheduleAnchorNth2, scheduleBiannualMonths, scheduleCustomDays, scheduleNote
     };
     const state = STATE_STORE.getState();
     let tasks = [...state.tasks, newTask];
@@ -5120,6 +5155,7 @@ const UI_RENDERER = (() => {
                 <li><b>2 ครั้ง/สัปดาห์</b> — เลือกได้ 2 วันในสัปดาห์</li>
                 <li><b>รายเดือน</b> — เลือกได้ว่าจะเป็นวันที่คงที่ (เช่น วันที่ 15) หรือสัปดาห์ที่ N ของเดือน (เช่น เสาร์ที่ 2)</li>
                 <li><b>2 ครั้ง/เดือน</b> — เหมือนรายเดือนแต่ทำ 2 รอบ/เดือน</li>
+                <li><b>กำหนดวันเอง</b> — พิมพ์วันที่ในเดือนเอง คั่นด้วยคอมมา (เช่น "12,22,31") ใช้เมื่อความถี่ไม่ตรงกับแบบอื่นเลย เช่น ทำ 3 ครั้ง/เดือนแบบไม่สม่ำเสมอ</li>
                 <li><b>ทุก 3 เดือน</b> — ทำเฉพาะเดือนที่ครบรอบ 3 เดือนจากวันที่ทำล่าสุด</li>
                 <li><b>ทุก 6 เดือน</b> — กำหนดเป็น 2 เดือนคงที่ต่อปี หรือ นับรอบ 6 เดือนจากวันที่ทำล่าสุด</li>
               </ul>
@@ -5198,7 +5234,7 @@ const UI_RENDERER = (() => {
   function updateStats(tasks, schedule) {
     document.getElementById('statTotal').textContent = tasks.length;
     let daily = 0, weekly = 0, monthly = 0;
-    const monthlyTypes = new Set(['monthly','bimonthly','days','every_n','quarterly']);
+    const monthlyTypes = new Set(['monthly','bimonthly','customDays','days','every_n','quarterly']);
     tasks.forEach(t => {
       if (t.freqType === 'daily' || t.freqType === 'shift') daily++;
       else if (t.freqType === 'weekly' || t.freqType === 'biweekly') weekly++;
