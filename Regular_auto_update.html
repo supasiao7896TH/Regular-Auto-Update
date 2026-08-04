@@ -29,6 +29,7 @@
     font-family: 'Noto Sans Thai', sans-serif;
     transition: background 0.3s, color 0.3s;
     min-height: 100vh;
+    padding-bottom: 35px;
   }
   /* Cursor blink */
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -123,7 +124,6 @@
   body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.4; }
   .relative-z { position:relative; z-index:1; }
   /* Brand footer — Supasit@1981th */
-  body { padding-bottom: 35px; }
   .brand-footer {
     position: fixed; left: 0; right: 0; bottom: 0;
     height: 34px;
@@ -184,6 +184,10 @@
         <div id="statusDot" class="w-2 h-2 rounded-full pulse-online" style="background:#27AE60"></div>
         <span id="statusText" style="font-size:12px;color:var(--text2)">Offline Ready</span>
       </div>
+      <!-- Manual -->
+      <button onclick="UI_RENDERER.showManual()" class="btn btn-ghost" style="padding:8px 12px" aria-label="คู่มือการใช้งาน" data-tip="คู่มือการใช้งาน">
+        📖 คู่มือการใช้งาน
+      </button>
       <!-- Dark mode -->
       <button onclick="APP_CORE.toggleDark()" class="btn btn-ghost" style="padding:8px 12px" aria-label="Toggle dark mode">
         <svg id="iconDark" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -5050,6 +5054,124 @@ const UI_RENDERER = (() => {
     showToast('ลบงานเรียบร้อยแล้ว', 'success');
   }
 
+  function showManual() {
+    const modal = document.getElementById('modalContainer');
+    modal.innerHTML = `
+      <div class="modal-backdrop" onclick="if(event.target===this)UI_RENDERER.closeModal()">
+        <div class="modal slide-up" style="max-width:720px">
+          <div class="flex items-center justify-between mb-4">
+            <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--navy)">📖 คู่มือการใช้งาน</h3>
+            <button onclick="UI_RENDERER.closeModal()" class="btn btn-ghost" style="padding:6px 10px">✕</button>
+          </div>
+          <div style="max-height:60vh;overflow-y:auto;font-size:13px;line-height:1.7;color:var(--text)">
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">1. แอปนี้คืออะไร</h4>
+              <p style="color:var(--text2)">แอปนี้ใช้สร้าง <b>ตารางงานบำรุงรักษาประจำเดือน</b> (Regular Work) แบบทำเครื่องหมาย O รายวัน สำหรับพื้นที่ CTA &amp; PTA No.1 Plant โดยมีงานตั้งต้นให้แล้วประมาณ 74 รายการ พร้อมกำหนดความถี่ของแต่ละงานไว้ล่วงหน้า ข้อมูลทั้งหมดเก็บอยู่ในเครื่องที่เปิดแอป ไม่ต้อง login และไม่ต้องต่ออินเทอร์เน็ตหลังโหลดหน้าเว็บครั้งแรก</p>
+            </div>
+
+            <div style="margin-bottom:18px;padding:12px 14px;background:var(--surface2);border-left:4px solid var(--amber);border-radius:8px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--danger);margin-bottom:6px">⚠️ 2. สำคัญมาก: เปิดไฟล์แบบไหน ข้อมูลถึงจะไม่หาย</h4>
+              <p style="margin-bottom:6px">แอปนี้เปิดใช้ได้ 2 แบบ:</p>
+              <ul style="margin:0 0 8px 18px;padding:0">
+                <li><b>เปิดผ่าน Server/Intranet</b> (มี URL http://... ในแถบที่อยู่) — ทุกการแก้ไข <b>บันทึกอัตโนมัติทันที</b> ลงเครื่อง (IndexedDB)</li>
+                <li><b>เปิดจากไฟล์โดยตรง</b> (ดับเบิลคลิกไฟล์ .html แถบที่อยู่ขึ้นต้นด้วย <code>file://</code>) — การแก้ไขจะอยู่ใน <b>หน่วยความจำชั่วคราวเท่านั้น หายทันทีที่ปิดหน้าเว็บ</b> ถ้าไม่กดบันทึกเอง</li>
+              </ul>
+              <p style="margin-bottom:6px">ถ้าเปิดแบบที่ 2 แอปจะมี "toast" สีเหลืองเตือนตอนเปิดหน้าว่า:<br><i>"ไฟล์นี้เปิดจากเครื่อง (local) — แก้ไขแล้วต้องกด "บันทึก Standalone HTML" หรือ "Export JSON" เอง ไม่งั้นข้อมูลจะหายเมื่อปิดหน้านี้"</i></p>
+              <p><b>สรุป:</b> ถ้าเห็นข้อความเตือนนี้ ให้กดปุ่ม <b>"บันทึกพร้อมข้อมูล"</b> หรือ <b>"Export JSON"</b> ทุกครั้งหลังแก้ไข ก่อนปิดหน้าเว็บ — หรือแจ้ง IT ให้ช่วยวางไฟล์นี้ไว้บน Server/Intranet ของแผนกเพื่อให้บันทึกอัตโนมัติได้เลย</p>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">3. ส่วนต่างๆ ของหน้าจอ (แถบด้านบน)</h4>
+              <ul style="margin:0 0 0 18px;padding:0;color:var(--text2)">
+                <li>โลโก้ "GCM PTA" และชื่อแอป</li>
+                <li>สถานะ "Offline Ready" — แค่บอกว่าแอปพร้อมทำงานแบบออฟไลน์ ไม่ใช่สถานะอินเทอร์เน็ต</li>
+                <li>ปุ่ม 📖 คู่มือการใช้งาน — ปุ่มนี้เอง</li>
+                <li>ปุ่มโหมดมืด/สว่าง (รูปพระอาทิตย์/พระจันทร์)</li>
+              </ul>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">4. แถบเครื่องมือ (Toolbar)</h4>
+              <ul style="margin:0 0 0 18px;padding:0;color:var(--text2)">
+                <li><b>◀ / ▶</b> — เปลี่ยนเดือนที่ดูอยู่</li>
+                <li><b>Generate</b> — สร้าง/รีเฟรชตารางของเดือนที่เลือก <b>ต้องกดปุ่มนี้ก่อนเสมอ</b> ก่อนจะ Export Excel</li>
+                <li><b>Export Excel</b> — ดาวน์โหลดตารางเป็นไฟล์ .xlsx (ต้องกด Generate ก่อน)</li>
+                <li><b>Print / PDF</b> — เปิดหน้าต่างพิมพ์ของเบราว์เซอร์เพื่อพิมพ์ตาราง</li>
+                <li><b>บันทึก PDF</b> (สีแดง) — เปิดหน้าต่างพิมพ์เหมือนกัน แล้วมีข้อความแนะนำให้เลือกปลายทางเป็น "Save as PDF" <b>หมายเหตุ: แอปนี้ไม่มีระบบสร้าง PDF ของตัวเอง ใช้ฟังก์ชันพิมพ์ของเบราว์เซอร์ ต้องเลือก "Save as PDF" เองในหน้าต่างที่เปิดขึ้น</b></li>
+                <li><b>จัดการงาน</b> (สีส้ม) — เปิดหน้าจัดการรายการงานทั้งหมด (เพิ่ม/แก้ไข/ลบ)</li>
+                <li><b>Export JSON / Import JSON</b> — สำรอง/กู้คืนข้อมูลดิบทั้งหมด</li>
+                <li><b>บันทึกพร้อมข้อมูล</b> (สีเขียวอมฟ้า) — บันทึกแอปพร้อมข้อมูลปัจจุบันเป็นไฟล์ .html ใหม่ทั้งไฟล์ ใช้ส่งต่อ/สำรองข้อมูลได้ดีที่สุด</li>
+              </ul>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">5. การทำเครื่องหมายงานที่ทำเสร็จแล้ว (ทำ O)</h4>
+              <p style="color:var(--text2)">คลิกที่วงกลมในช่องวันที่ของแต่ละงานในตาราง เพื่อทำเครื่องหมาย O ว่าทำงานนั้นแล้ว คลิกซ้ำเพื่อยกเลิกเครื่องหมาย ระบบจะ<b>บันทึกให้ทันทีอัตโนมัติ</b> ไม่ต้องกดปุ่มบันทึกแยก (แต่ถ้าเปิดแบบ file:// ตามข้อ 2 ต้อง Export/บันทึกพร้อมข้อมูลเองอยู่ดี)</p>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">6. ประเภทความถี่งาน (Frequency)</h4>
+              <ul style="margin:0 0 0 18px;padding:0;color:var(--text2)">
+                <li><b>ทุกวัน / ทุก Shift</b> — ขึ้นเครื่องหมายให้ทุกวันในเดือน</li>
+                <li><b>ตาม DCS / Batch / พิเศษ</b> — ไม่ขึ้นเครื่องหมายอัตโนมัติ จะแสดงเป็นข้อความโน้ตแทน (เช่น "Follow operation time...")</li>
+                <li><b>ทุก N วัน</b> — เว้นระยะตามจำนวนวันที่กำหนด</li>
+                <li><b>รายสัปดาห์</b> — วันในสัปดาห์คงที่ทุกสัปดาห์</li>
+                <li><b>2 ครั้ง/สัปดาห์</b> — เลือกได้ 2 วันในสัปดาห์</li>
+                <li><b>รายเดือน</b> — เลือกได้ว่าจะเป็นวันที่คงที่ (เช่น วันที่ 15) หรือสัปดาห์ที่ N ของเดือน (เช่น เสาร์ที่ 2)</li>
+                <li><b>2 ครั้ง/เดือน</b> — เหมือนรายเดือนแต่ทำ 2 รอบ/เดือน</li>
+                <li><b>ทุก 3 เดือน</b> — ทำเฉพาะเดือนที่ครบรอบ 3 เดือนจากวันที่ทำล่าสุด</li>
+                <li><b>ทุก 6 เดือน</b> — กำหนดเป็น 2 เดือนคงที่ต่อปี หรือ นับรอบ 6 เดือนจากวันที่ทำล่าสุด</li>
+              </ul>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">7. การเพิ่ม/แก้ไขงาน</h4>
+              <p style="color:var(--text2);margin-bottom:6px">เปิดฟอร์มเพิ่ม/แก้ไขงานได้จาก: ปุ่ม "จัดการงาน" → "+ เพิ่มงาน", ปุ่ม "+ เพิ่มงานใน &lt;Section&gt;" ท้ายแต่ละหมวดในตารางหลัก, หรือไอคอน ✏️ เพื่อแก้ไขงานเดิม</p>
+              <p style="color:var(--text2)">ฟิลด์ในฟอร์ม: <b>ชื่องาน*</b> (จำเป็น), No. (ลำดับที่แสดง), <b>Section*</b> (เลือกหมวดเดิม หรือพิมพ์หมวดใหม่, จำเป็น), เวลา/กะ (พิมพ์อิสระ เช่น "13:00" หรือ "Night"), <b>ประเภทความถี่*</b> (จำเป็น มีตัวเลือกย่อยเปลี่ยนตามประเภทที่เลือก), วันที่ทำล่าสุด, และหมายเหตุตารางงาน (ใช้แทนช่องทำเครื่องหมายสำหรับงานแบบ DCS/Batch/พิเศษ)</p>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">8. จัดการรายการงานทั้งหมด (Task Manager)</h4>
+              <p style="color:var(--text2)">กดปุ่ม "จัดการงาน" เพื่อดูรายการงานทั้งหมดพร้อมปุ่มแก้ไข ✏️ และลบ 🗑️ ในแต่ละแถว การลบจะมีหน้าต่างยืนยันก่อนเสมอ และ<b>กู้คืนไม่ได้</b> ยกเว้นเคยมีการ Export JSON สำรองไว้ก่อนแล้วนำกลับมา Import ใหม่</p>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">9. การนำเข้า/ส่งออกข้อมูล — ใช้แบบไหนดี</h4>
+              <ul style="margin:0 0 0 18px;padding:0;color:var(--text2)">
+                <li><b>Export Excel</b> — เหมาะสำหรับยื่น/แชร์ตารางของเดือนนั้นเป็นไฟล์ .xlsx</li>
+                <li><b>Export JSON / Import JSON</b> — สำรอง/กู้คืนข้อมูลดิบทั้งหมด (รายการงาน + ประวัติการทำเครื่องหมาย) เหมาะเป็น backup</li>
+                <li><b>บันทึกพร้อมข้อมูล (Standalone HTML)</b> — <b>แนะนำที่สุด</b> สำหรับส่งต่อให้แผนกอื่นหรือสำรองไว้ใช้งานต่อได้ทันที เพราะได้ไฟล์แอปที่ใช้งานได้เลยพร้อมข้อมูลครบ ไม่ต้องพึ่งไฟล์ต้นฉบับ</li>
+              </ul>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">10. โหมดมืด (Dark Mode)</h4>
+              <p style="color:var(--text2)">กดปุ่มรูปพระอาทิตย์/พระจันทร์มุมขวาบนเพื่อสลับโหมด ระบบจะจำการตั้งค่านี้ไว้ในเครื่องอัตโนมัติ เปิดครั้งต่อไปจะเป็นโหมดเดิมที่เคยตั้งไว้</p>
+            </div>
+
+            <div style="margin-bottom:18px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">11. ขั้นตอนตามระเบียบโรงงาน</h4>
+              <p style="color:var(--text2)">ตารางที่พิมพ์/บันทึกออกมาจะมีข้อความกำกับไว้ท้ายฟอร์มตามระเบียบจริง: <i>"ให้ทำเครื่องหมาย O เมื่อได้ปฏิบัติงานเสร็จแล้ว และส่งให้ ผจผ.ผลิต รับทราบภายในวันที่ 1 ของเดือนถัดไป"</i> (รหัสฟอร์ม PE-F-0026-05)</p>
+            </div>
+
+            <div>
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">12. คำถามที่พบบ่อย</h4>
+              <ul style="margin:0 0 0 18px;padding:0;color:var(--text2)">
+                <li><b>กด Export Excel แล้วไม่มีข้อมูล?</b> → ต้องกด Generate ก่อนเสมอ</li>
+                <li><b>กด "บันทึก PDF" แล้วไม่ได้ไฟล์ PDF?</b> → ในหน้าต่างพิมพ์ที่เปิดขึ้น ต้องเลือกปลายทางเป็น "Save as PDF" เอง แอปไม่ได้สร้าง PDF ให้อัตโนมัติ</li>
+                <li><b>แก้ไขข้อมูลแล้วหายหลังปิดหน้าเว็บ?</b> → ย้อนไปอ่านข้อ 2 เรื่องการเปิดไฟล์แบบ file:// ต้อง Export/บันทึกเองก่อนปิดหน้า</li>
+              </ul>
+            </div>
+
+          </div>
+          <div class="flex justify-end mt-4">
+            <button onclick="UI_RENDERER.closeModal()" class="btn btn-ghost">ปิด</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
   function closeModal() {
     document.getElementById('modalContainer').innerHTML = '';
   }
@@ -5093,7 +5215,7 @@ const UI_RENDERER = (() => {
     editLastDate, editTask, updateEditFreqUI, confirmEditTask,
     saveLastDate, updateAnchorPreview, toggleScheduleMode, updateCyclePreview,
     showTaskManager, showAddTask, showAddTaskInSection, updateFreqUI, updateAddAnchorPreview, toggleNewSectionInput,
-    confirmAddTask, deleteTask,
+    confirmAddTask, deleteTask, showManual,
     closeModal, showToast, updateStats
   };
 })();
