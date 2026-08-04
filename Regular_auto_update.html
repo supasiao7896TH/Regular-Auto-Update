@@ -6,7 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&amp;family=Fraunces:wght@300;400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js" integrity="sha384-gx12pQMMYnabkTgbCHqqrT65RwDnXI/f/dU2H9JUmT0KUeiMF5bf+yroQBmX0Nuk" crossorigin="anonymous"></script>
 <style>
   :root {
     --navy: #1B4F8A; --navy-light: #2563EB; --amber: #F5A623;
@@ -3306,7 +3306,9 @@ const APP_CONFIG = (() => {
   const DB_VERSION = 2;
   const MONTH_TH = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
   const MONTH_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const MONTH_EN_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const DAY_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const NTH_LABEL = ['','1 (ต้นเดือน)','2','3 (กลางเดือน)','4','Mid (~15)'];
 
   // Default tasks — matched to source document
   const DEFAULT_TASKS = [
@@ -3391,7 +3393,7 @@ const APP_CONFIG = (() => {
     { id:'t074', no:8,    section:'Common Work (TA & PTA)', name:'Check hose',                               shift:'M',             freqType:'quarterly',freqValue:1,  freqLabel:'1 time/3 months',             lastDate:null,         scheduleAnchor:null },
   ];
 
-  return { DB_NAME, DB_VERSION, MONTH_TH, MONTH_EN, DAY_EN, DEFAULT_TASKS };
+  return { DB_NAME, DB_VERSION, MONTH_TH, MONTH_EN, MONTH_EN_SHORT, DAY_EN, NTH_LABEL, DEFAULT_TASKS };
 })();
 
 // ============================================================
@@ -3596,7 +3598,7 @@ const STORAGE_ENGINE = (() => {
     return map;
   }
 
-  return { open, loadTasks, saveTasks, saveScheduleOverrides, loadScheduleOverrides, getAllOverrides, put, del, getSettings };
+  return { open, loadTasks, saveTasks, saveScheduleOverrides, loadScheduleOverrides, getAllOverrides, put, del, getSettings, isFile: () => _isFile };
 })();
 
 // ============================================================
@@ -3735,31 +3737,39 @@ const FREQ_CALC = (() => {
 })();
 
 // ============================================================
-// UTILITY
+// MODULE 4.5: UTILS
 // ============================================================
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+const UTILS = (() => {
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
 
-function renumberTasks(tasks) {
-  const sections = [...new Set(tasks.map(t => t.section))];
-  const result = [...tasks];
-  sections.forEach(section => {
-    let counter = 1;
-    result.forEach(t => {
-      if (t.section === section && t.no !== null) {
-        t.no = counter++;
-      }
+  function renumberTasks(tasks) {
+    const sections = [...new Set(tasks.map(t => t.section))];
+    const result = [...tasks];
+    sections.forEach(section => {
+      let counter = 1;
+      result.forEach(t => {
+        if (t.section === section && t.no !== null) {
+          t.no = counter++;
+        }
+      });
     });
-  });
-  return result;
-}
+    return result;
+  }
+
+  return { escapeHtml, renumberTasks };
+})();
+// Backward-compatible top-level aliases — kept so the ~30 existing call sites
+// across UI_RENDERER/EXPORT_ENGINE don't need a risky mass-rename.
+const escapeHtml = UTILS.escapeHtml;
+const renumberTasks = UTILS.renumberTasks;
 
 // ============================================================
 // MODULE 5: UI_RENDERER
@@ -3807,7 +3817,7 @@ const UI_RENDERER = (() => {
 
     sections.forEach(section => {
       // Section header
-      html += `<tr class="section-header"><td colspan="${days + 5}">${section}</td></tr>`;
+      html += `<tr class="section-header"><td colspan="${days + 5}">${escapeHtml(section)}</td></tr>`;
       const sectionTasks = tasks.filter(t => t.section === section);
 
       sectionTasks.forEach(task => {
@@ -3963,8 +3973,8 @@ const UI_RENDERER = (() => {
 
   function _fillEditAnchorUI(task) {
     const DAY_TH = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
-    const NTH_LBL = ['','1 (ต้นเดือน)','2','3 (กลางเดือน)','4','Mid (~15)'];
-    const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const NTH_LBL = APP_CONFIG.NTH_LABEL;
+    const MONTH_NAMES = APP_CONFIG.MONTH_EN_SHORT;
     const box = document.getElementById('editScheduleAnchorBox');
     if (!box) return;
     const type = task.freqType;
@@ -4201,8 +4211,8 @@ const UI_RENDERER = (() => {
     if (!task) return;
     const { freqType, freqLabel, scheduleAnchor, scheduleAnchorNth, scheduleAnchorNth2, scheduleAnchor2, scheduleMode, scheduleBiannualMonths, scheduleNote, lastDate, name } = task;
     const DAY_TH = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
-    const NTH_LABEL = ['','1 (ต้นเดือน)','2','3 (กลางเดือน)','4','Mid (~15)'];
-    const MONTH_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const NTH_LABEL = APP_CONFIG.NTH_LABEL;
+    const MONTH_EN = APP_CONFIG.MONTH_EN_SHORT;
     const cardStyle = 'background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px';
     const labelStyle = 'font-size:11px;font-weight:700;color:var(--navy);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px';
 
@@ -4367,7 +4377,7 @@ const UI_RENDERER = (() => {
         </div>`;
       scheduleSection = dayRuleSection('quarterly');
     } else if (freqType === 'biannual') {
-      const BA_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const BA_MONTHS = APP_CONFIG.MONTH_EN_SHORT;
       let bm = scheduleBiannualMonths;
       if (!bm && lastDate) { const lm = new Date(lastDate).getMonth(); bm = [lm, (lm + 6) % 12]; }
       if (!bm) bm = [0, 6];
@@ -4418,7 +4428,7 @@ const UI_RENDERER = (() => {
   function updateAnchorPreview(freqType) {
     const DAY_TH   = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
     const NTH_TH   = {0:'สุดท้าย',1:'ที่ 1',2:'ที่ 2',3:'ที่ 3',4:'ที่ 4',5:'กลางเดือน'};
-    const MONTH_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTH_EN = APP_CONFIG.MONTH_EN_SHORT;
 
     if (freqType === 'biannualMonths') {
       const p = document.getElementById('biannualMonthPreview');
@@ -4484,7 +4494,7 @@ const UI_RENDERER = (() => {
     const lastInput = document.getElementById('lastDateInput');
     const preview   = document.getElementById('cyclePreview');
     if (!lastInput || !preview) return;
-    const MONTH_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTH_EN = APP_CONFIG.MONTH_EN_SHORT;
     const val = lastInput.value;
     if (!val) { preview.textContent = '— กรุณากำหนดวันที่ทำล่าสุดก่อน'; return; }
     const sm = new Date(val).getMonth();
@@ -4561,7 +4571,7 @@ const UI_RENDERER = (() => {
   function showTaskManager() {
     const state = STATE_STORE.getState();
     const sections = [...new Set(state.tasks.map(t => t.section))];
-    let optionsHtml = sections.map(s => `<option value="${s}">${s}</option>`).join('');
+    let optionsHtml = sections.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
 
     const modal = document.getElementById('modalContainer');
     modal.innerHTML = `
@@ -4687,7 +4697,7 @@ const UI_RENDERER = (() => {
     freqValueBox.style.display = ['days','every_n'].includes(type) ? 'block' : 'none';
     if (!scheduleBox) return;
     const DAY_TH  = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
-    const NTH_LBL = ['','1 (ต้นเดือน)','2','3 (กลางเดือน)','4','Mid (~15)'];
+    const NTH_LBL = APP_CONFIG.NTH_LABEL;
 
     if (type === 'bimonthly') {
       const nth1Opts = [1,2,3,4,5,0].map(v => `<option value="${v}"${v===1?' selected':''}>${NTH_LBL[v]||'Last'}</option>`).join('');
@@ -4751,7 +4761,7 @@ const UI_RENDERER = (() => {
         <select id="newScheduleAnchor" onchange="UI_RENDERER.updateAddAnchorPreview()" style="margin-bottom:4px">${opts}</select>
         <div id="addAnchorPreview" style="font-size:12px;color:var(--success);font-weight:600">→ ทำทุกวันจันทร์</div>`;
     } else if (type === 'biannual') {
-      const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const MONTH_NAMES = APP_CONFIG.MONTH_EN_SHORT;
       const nthOpts = [1,2,3,4,5,0].map(v => `<option value="${v}"${v===3?' selected':''}>${NTH_LBL[v]||'Last'}</option>`).join('');
       const dowOpts = DAY_TH.map((d,i) => `<option value="${i}">${d}</option>`).join('');
       const mOpts1  = MONTH_NAMES.map((m,i) => `<option value="${i}"${i===0?' selected':''}>${m}</option>`).join('');
@@ -4843,7 +4853,7 @@ const UI_RENDERER = (() => {
     const preview = document.getElementById('addAnchorPreview');
     const DAY_TH  = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
     const NTH_TH  = {0:'สุดท้าย',1:'ที่ 1',2:'ที่ 2',3:'ที่ 3',4:'ที่ 4',5:'กลางเดือน'};
-    const MONTH_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTH_EN = APP_CONFIG.MONTH_EN_SHORT;
 
     if (type === 'bimonthly') {
       const modeEl = document.querySelector('input[name="newBimonthlyMode"]:checked');
@@ -5207,8 +5217,20 @@ const EXPORT_ENGINE = (() => {
           UI_RENDERER.showToast('ไฟล์ไม่ถูกต้อง: ไม่พบ tasks', 'error');
           return;
         }
-        await STORAGE_ENGINE.saveTasks(data.tasks);
-        STATE_STORE.setState({ tasks: data.tasks });
+        const isValidTask = t => t && typeof t === 'object'
+          && typeof t.id === 'string' && t.id
+          && typeof t.name === 'string'
+          && typeof t.section === 'string';
+        const validTasks = data.tasks.filter(isValidTask);
+        if (validTasks.length === 0) {
+          UI_RENDERER.showToast('ไฟล์ไม่ถูกต้อง: ไม่มีรายการงานที่มีรูปแบบถูกต้อง', 'error');
+          return;
+        }
+        if (validTasks.length !== data.tasks.length) {
+          DEBUG_MODULE.log('WARN', `Import: skipped ${data.tasks.length - validTasks.length} invalid task(s)`);
+        }
+        await STORAGE_ENGINE.saveTasks(validTasks);
+        STATE_STORE.setState({ tasks: validTasks });
         if (data.scheduleOverrides && typeof data.scheduleOverrides === 'object') {
           for (const [key, overrides] of Object.entries(data.scheduleOverrides)) {
             const parts = key.split('-');
@@ -5218,7 +5240,7 @@ const EXPORT_ENGINE = (() => {
           }
         }
         await APP_CORE.generate();
-        UI_RENDERER.showToast(`นำเข้าข้อมูลสำเร็จ ✅ (${data.tasks.length} รายการ)`, 'success');
+        UI_RENDERER.showToast(`นำเข้าข้อมูลสำเร็จ ✅ (${validTasks.length} รายการ)`, 'success');
       } catch (err) {
         DEBUG_MODULE.log('ERROR', 'Import JSON failed', err);
         UI_RENDERER.showToast('นำเข้าไม่สำเร็จ: ' + err.message, 'error');
@@ -5259,7 +5281,6 @@ const EXPORT_ENGINE = (() => {
       // causes Tailwind to clear and rebuild styles, breaking the app on reopen.
       html = html.replace(/<script[^>]*cdn\.tailwindcss\.com[^>]*><\/script>\s*/g, '');
       html = html.replace(/<script[^>]*cdn\.sheetjs\.com[^>]*><\/script>\s*/g, '');
-      html = html.replace(/<script[^>]*xlsx[^>]*><\/script>\s*/g, '');
 
       // Escape '<' as < so nothing in the data (e.g. a literal "</scr"+"ipt>")
       // can break out of the tag. JSON.parse turns < back into '<' at load.
@@ -5391,7 +5412,7 @@ const APP_CORE = (() => {
     // ── Data rows ────────────────────────────────────────────
     let bodyRows = '';
     sections.forEach(section => {
-      bodyRows += `<tr><td colspan="${4 + days}" class="sec-hdr">${section}</td></tr>`;
+      bodyRows += `<tr><td colspan="${4 + days}" class="sec-hdr">${escapeHtml(section)}</td></tr>`;
       tasks.filter(t => t.section === section).forEach(task => {
         const sched = schedule[task.id] || [];
         const dayCells = task.scheduleNote
@@ -5560,17 +5581,27 @@ const APP_CORE = (() => {
   }
 
   function printSchedule() {
-    const html = buildPrintDoc();
-    if (html) openPrintWindow(html);
+    try {
+      const html = buildPrintDoc();
+      if (html) openPrintWindow(html);
+    } catch (e) {
+      DEBUG_MODULE.log('ERROR', 'Print failed', e);
+      UI_RENDERER.showToast('พิมพ์ไม่สำเร็จ: ' + e.message, 'error');
+    }
   }
 
   // Same document as Print/PDF — guides the user to pick "Save as PDF" as the
   // print destination so they get a PDF file to attach to email.
   function savePDF() {
-    const html = buildPrintDoc();
-    if (!html) return;
-    if (openPrintWindow(html)) {
-      UI_RENDERER.showToast('ในหน้าต่างที่เปิดขึ้น เลือกปลายทางเป็น "Save as PDF / บันทึกเป็น PDF" แล้วกด Save', 'info');
+    try {
+      const html = buildPrintDoc();
+      if (!html) return;
+      if (openPrintWindow(html)) {
+        UI_RENDERER.showToast('ในหน้าต่างที่เปิดขึ้น เลือกปลายทางเป็น "Save as PDF / บันทึกเป็น PDF" แล้วกด Save', 'info');
+      }
+    } catch (e) {
+      DEBUG_MODULE.log('ERROR', 'Save PDF failed', e);
+      UI_RENDERER.showToast('บันทึก PDF ไม่สำเร็จ: ' + e.message, 'error');
     }
   }
 
@@ -5631,6 +5662,12 @@ const APP_CORE = (() => {
 
       // Offline indicator
       document.getElementById('statusText').textContent = 'Offline Ready';
+
+      // Warn once if running from a saved standalone file — edits here live only
+      // in memory until the user explicitly re-exports (Save Standalone HTML / Export JSON)
+      if (STORAGE_ENGINE.isFile()) {
+        UI_RENDERER.showToast('ไฟล์นี้เปิดจากเครื่อง (local) — แก้ไขแล้วต้องกด "บันทึก Standalone HTML" หรือ "Export JSON" เอง ไม่งั้นข้อมูลจะหายเมื่อปิดหน้านี้', 'warning');
+      }
 
       // Auto-generate for current month
       await generate();
