@@ -5643,6 +5643,15 @@ const APP_CORE = (() => {
         ${Array.from({ length: days }, () => `<col style="width:${dayW}mm">`).join('')}
       </colgroup>`;
 
+    // ── Row height calc (mirrors column-width calc above) ──────
+    // A3 portrait usable height ≈ 406mm (420mm page − 6mm top − 8mm bottom margin).
+    // Reserve for: doc header table (~17mm incl. logo + margin-bottom),
+    // CC line (~4mm), thead rows (6mm + 4.5mm = 10.5mm), footer note (~5mm),
+    // plus a small rounding buffer (~3mm) ≈ 40mm reserved.
+    const rowCount = sections.length + tasks.length; // matches <tr> count emitted above
+    const usableBodyH = 406 - 40; // = 366mm
+    const rowH = Math.min(9, Math.max(4.5, usableBodyH / rowCount)).toFixed(2);
+
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-01`;
 
     const html = `<!DOCTYPE html>
@@ -5690,10 +5699,10 @@ const APP_CORE = (() => {
   thead tr.hdr-day .sat { background: #D0D0D0 !important; color: #333; }
 
   /* Section header */
-  .sec-hdr { background: #BFBFBF; color: #000; font-weight: 700; font-size: 6.5pt; padding: 1px 6px; height: 4.5mm; border: 1px solid #999; }
+  .sec-hdr { background: #BFBFBF; color: #000; font-weight: 700; font-size: 6.5pt; padding: 1px 6px; height: ${rowH}mm; border: 1px solid #999; }
 
   /* Data rows */
-  tbody tr { height: 4.5mm; }
+  tbody tr { height: ${rowH}mm; }
   tbody tr:nth-child(even) td:not(.sec-hdr) { background: #f5f7fa; }
   tbody tr:nth-child(even) td.sun { background: #e4e4e4 !important; }
   tbody tr:nth-child(even) td.sat { background: #e4e4e4 !important; }
