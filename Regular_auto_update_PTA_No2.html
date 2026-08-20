@@ -5285,11 +5285,17 @@ const EXPORT_ENGINE = (() => {
       });
 
       // Section-specific remarks (e.g. CTA footnotes carried over from the source Excel)
-      (APP_CONFIG.SECTION_REMARKS[section] || []).forEach(line => {
-        const remarkRow = new Array(days + 4).fill('');
-        remarkRow[1] = line;
-        wsData.push(remarkRow);
-      });
+      const sectionRemarks = APP_CONFIG.SECTION_REMARKS[section] || [];
+      if (sectionRemarks.length > 0) {
+        const remarkHeaderRow = new Array(days + 4).fill('');
+        remarkHeaderRow[1] = 'Remark :';
+        wsData.push(remarkHeaderRow);
+        sectionRemarks.forEach(line => {
+          const remarkRow = new Array(days + 4).fill('');
+          remarkRow[1] = line;
+          wsData.push(remarkRow);
+        });
+      }
     });
 
     // Note row
@@ -5571,9 +5577,13 @@ const APP_CORE = (() => {
       });
 
       // Section-specific remarks (e.g. CTA footnotes carried over from the source Excel)
-      (APP_CONFIG.SECTION_REMARKS[section] || []).forEach(line => {
-        bodyRows += `<tr><td colspan="${4 + days}" class="remark-line">${escapeHtml(line)}</td></tr>`;
-      });
+      const sectionRemarks = APP_CONFIG.SECTION_REMARKS[section] || [];
+      if (sectionRemarks.length > 0) {
+        bodyRows += `<tr><td colspan="${4 + days}" class="remark-line" style="font-weight:700;font-style:normal">Remark :</td></tr>`;
+        sectionRemarks.forEach(line => {
+          bodyRows += `<tr><td colspan="${4 + days}" class="remark-line">${escapeHtml(line)}</td></tr>`;
+        });
+      }
     });
 
     // ── Column width calc ────────────────────────────────────
@@ -5596,7 +5606,10 @@ const APP_CORE = (() => {
     // Reserve for: doc header table (~17mm incl. logo + margin-bottom),
     // CC line (~4mm), thead rows (6mm + 4.5mm = 10.5mm), footer note (~5mm),
     // plus a small rounding buffer (~3mm) ≈ 40mm reserved.
-    const remarkRowCount = sections.reduce((sum, s) => sum + (APP_CONFIG.SECTION_REMARKS[s] || []).length, 0);
+    const remarkRowCount = sections.reduce((sum, s) => {
+      const lines = APP_CONFIG.SECTION_REMARKS[s] || [];
+      return sum + (lines.length > 0 ? lines.length + 1 : 0); // +1 for the "Remark :" header row
+    }, 0);
     const rowCount = sections.length + tasks.length + remarkRowCount; // matches <tr> count emitted above
     const usableBodyH = 406 - 40; // = 366mm
     const rowH = Math.min(9, Math.max(4.5, usableBodyH / rowCount)).toFixed(2);
