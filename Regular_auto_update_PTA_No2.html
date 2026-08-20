@@ -3361,7 +3361,16 @@ const APP_CONFIG = (() => {
     { id:'p026', no:26, section:'PTA - Regular Work', name:'Flush 2LC-2407 line PZ-405 to 2PZ-406',                                   shift:'not fix', freqType:'daily',      freqValue:1,  freqLabel:'1 time/shift',  lastDate:null, scheduleAnchor:null, scheduleNote:null },
   ];
 
-  return { DB_NAME, DB_VERSION, MONTH_TH, MONTH_EN, MONTH_EN_SHORT, DAY_EN, NTH_LABEL, DEFAULT_TASKS };
+  // Free-text remarks printed right after a section's tasks (Excel/PDF export only)
+  const SECTION_REMARKS = {
+    'CTA - Regular Work': [
+      '2TD-505 change from 1 time/month -> 1 time/5 day (Other activity follow timer at DCS)',
+      '2TM-300A/B/C change from 1 time/month -> 1 time/25 day',
+      'Draining check water from bearing 2TP-1331A/B/C/D',
+    ],
+  };
+
+  return { DB_NAME, DB_VERSION, MONTH_TH, MONTH_EN, MONTH_EN_SHORT, DAY_EN, NTH_LABEL, DEFAULT_TASKS, SECTION_REMARKS };
 })();
 
 // ============================================================
@@ -5274,6 +5283,13 @@ const EXPORT_ENGINE = (() => {
         }
         wsData.push(row);
       });
+
+      // Section-specific remarks (e.g. CTA footnotes carried over from the source Excel)
+      (APP_CONFIG.SECTION_REMARKS[section] || []).forEach(line => {
+        const remarkRow = new Array(days + 4).fill('');
+        remarkRow[1] = line;
+        wsData.push(remarkRow);
+      });
     });
 
     // Note row
@@ -5282,18 +5298,6 @@ const EXPORT_ENGINE = (() => {
     noteRow[days + 2] = 'PE-F-0026-05';
     wsData.push([]);
     wsData.push(noteRow);
-
-    // Remarks carried over from the source Excel (CTA section footnotes)
-    const remarkLines = [
-      '2TD-505 change from 1 time/month -> 1 time/5 day (Other activity follow timer at DCS)',
-      '2TM-300A/B/C change from 1 time/month -> 1 time/25 day',
-      'Draining check water from bearing 2TP-1331A/B/C/D',
-    ];
-    remarkLines.forEach(line => {
-      const remarkRow = new Array(days + 4).fill('');
-      remarkRow[1] = line;
-      wsData.push(remarkRow);
-    });
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
 
@@ -5565,6 +5569,11 @@ const APP_CORE = (() => {
           ${dayCells}
         </tr>`;
       });
+
+      // Section-specific remarks (e.g. CTA footnotes carried over from the source Excel)
+      (APP_CONFIG.SECTION_REMARKS[section] || []).forEach(line => {
+        bodyRows += `<tr><td colspan="${4 + days}" class="remark-line">${escapeHtml(line)}</td></tr>`;
+      });
     });
 
     // ── Column width calc ────────────────────────────────────
@@ -5587,7 +5596,8 @@ const APP_CORE = (() => {
     // Reserve for: doc header table (~17mm incl. logo + margin-bottom),
     // CC line (~4mm), thead rows (6mm + 4.5mm = 10.5mm), footer note (~5mm),
     // plus a small rounding buffer (~3mm) ≈ 40mm reserved.
-    const rowCount = sections.length + tasks.length; // matches <tr> count emitted above
+    const remarkRowCount = sections.reduce((sum, s) => sum + (APP_CONFIG.SECTION_REMARKS[s] || []).length, 0);
+    const rowCount = sections.length + tasks.length + remarkRowCount; // matches <tr> count emitted above
     const usableBodyH = 406 - 40; // = 366mm
     const rowH = Math.min(9, Math.max(4.5, usableBodyH / rowCount)).toFixed(2);
 
@@ -5648,6 +5658,7 @@ const APP_CORE = (() => {
 
   /* Schedule note cell (merged) */
   .sched-note { text-align: center; font-style: italic; color: #555; background: #f0f4f8 !important; font-size: 6.5pt; }
+  .remark-line { border: none !important; background: transparent !important; text-align: left; font-style: italic; color: #444; }
 
   /* Note */
   .note { display: flex; justify-content: space-between; margin-top: 2mm; font-size: 6.5pt; }
@@ -5696,11 +5707,6 @@ const APP_CORE = (() => {
   <div class="note">
     <span>Note&nbsp;&nbsp;:&nbsp;&nbsp;ให้ทำเครื่องหมาย O เมื่อได้ปฏิบัติงานเสร็จแล้ว และส่งให้ ผจผ.ผลิต รับทราบภายในวันที่ 1 ของเดือนถัดไป</span>
     <span>PE-F-0026-05</span>
-  </div>
-  <div class="note" style="display:block;margin-top:1mm;">
-    <div>2TD-505 change from 1 time/month -&gt; 1 time/5 day (Other activity follow timer at DCS)</div>
-    <div>2TM-300A/B/C change from 1 time/month -&gt; 1 time/25 day</div>
-    <div>Draining check water from bearing 2TP-1331A/B/C/D</div>
   </div>
 
   <script>
