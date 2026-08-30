@@ -4,15 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository layout
 
-This working directory is **not itself a git repository**. The actual git repo (remote: `github.com/supasiao7896TH/Regular-Auto-Update`) lives in the `Regular-Auto-Update/` subfolder. All git commands (status, add, commit, push) must be run from inside that subfolder.
+This working directory **is itself the git repo root** (remote: `github.com/supasiao7896TH/Regular-Auto-Update`, branch `main`). Run all git commands directly here — there is no nested subfolder to `cd` into.
 
-- `Regular-Auto-Update/` — the git repo; this is "the codebase"
-  - `Regular_auto_update.html` — original/base app, "CTA & PTA No.1 Plant"
-  - `Regular_auto_update_PTA_No2.html` — fork for "GCM PTA No.2 Plant"
-  - `Regular_auto_update_PTA_No3.html` — fork for "PTA No.3 Plant"
-  - `README.md` — user-facing usage doc (Thai)
-- `Regular_auto_update_PTA_No2.html` (loose copy at this root level) — a working-copy mirror of the repo's file of the same name, kept in sync manually. When editing this app, edit here first, verify, then copy over `Regular-Auto-Update/Regular_auto_update_PTA_No2.html` before committing. Don't let the two drift — always diff/sync before pushing.
-- `Regular Work  Monthly CTA2  PTA2_-2.xls` — source data reference for the No.2 plant's task list; not needed to run any app.
+- `Regular_auto_update.html` — original/base app, "CTA & PTA No.1 Plant"
+- `Regular_auto_update_PTA_No2.html` — fork for "GCM PTA No.2 Plant"
+- `Regular_auto_update_PTA_No3.html` — fork for "PTA No.3 Plant"
+- `README.md` — user-facing usage doc (Thai)
+
+Note for anyone working from this user's other machine: some past notes describe this repo living inside a `Regular-Auto-Update/` subfolder with a manually-synced loose copy of the No.2 file one level up. That layout is not what's on disk here — check `git rev-parse --show-toplevel` if a setup on another machine looks different, rather than assuming a mirrored-copy workflow is still needed.
 
 ## What this is
 
@@ -36,9 +35,9 @@ No build/lint/test tooling exists. Everything is manual:
   node -e "require('http').createServer((req,res)=>{const fs=require('fs');fs.readFile('.'+decodeURIComponent(req.url==='/'?'/Regular_auto_update_PTA_No2.html':req.url),(e,d)=>{if(e){res.writeHead(404);res.end();return;}res.writeHead(200,{'Content-Type':'text/html'});res.end(d);});}).listen(PORT)"
   ```
   Note: `file://` mode is still a real, supported usage mode for end users (double-click to open) — the app detects it (`window.location.protocol === 'file:'`) and falls back to an in-memory store instead of IndexedDB (see `STORAGE_ENGINE`). Just don't rely on that mode for testing browser-API-dependent features during development.
-- **No package manager** — all third-party code loads from CDN with pinned versions + Subresource Integrity hashes in `<head>` (Tailwind CSS, html2canvas 1.4.1). Do not add a dependency without a verified `integrity` hash — fetch the file and compute/cross-check it (e.g. against cdnjs's published SRI API) rather than guessing one.
+- **No package manager** — all third-party code loads from CDN in `<head>`. `html2canvas` is pinned (1.4.1) with a verified `integrity` (SRI) hash; Tailwind CSS loads via the unversioned play-CDN script (`cdn.tailwindcss.com`), which doesn't support pinning/SRI. Do not add a *new* dependency without a verified `integrity` hash where the CDN supports one — fetch the file and compute/cross-check it (e.g. against cdnjs's published SRI API) rather than guessing one.
 
-## Architecture (per file, ~5900-6000 lines)
+## Architecture (per file, ~5800-5900 lines)
 
 Static HTML/CSS in the first ~3300 lines (header, toolbar, modals, print CSS), followed by a single `<script>` block containing 9 IIFE modules in this order, each exposed as a `const MODULE_NAME = (() => { ...; return {...}; })();`:
 
@@ -55,6 +54,6 @@ Static HTML/CSS in the first ~3300 lines (header, toolbar, modals, print CSS), f
 ## Conventions specific to this codebase
 
 - **Inline styles are the deliberate convention**, not an oversight — everything is one HTML file with no external CSS, so `style="..."` attributes are used throughout intentionally. Don't "clean up" by extracting to a stylesheet; that breaks the single-file distribution model these apps are built around (double-click to open, or drop on any static host).
-- **Line endings are inconsistent between files** (`Regular_auto_update.html` is CRLF; `Regular_auto_update_PTA_No2.html` and `_No3.html` are LF) — a leftover from how each was originally created/edited. When scripting a text edit to apply across multiple files (e.g. via Node), normalize to `\n` for matching and only restore `\r\n` for files that originally had it, or a naive string-replace will silently fail on whichever files don't match your assumed line ending.
+- **Line endings can differ between files and between machines** — as of the last check here all 3 files are CRLF, but don't assume that's fixed: verify with `file *.html` (or check for `\r` before newlines) before scripting a cross-file text edit via Node, and normalize to `\n` for matching, restoring the original ending per-file, or a naive string-replace will silently fail on whichever file doesn't match your assumed line ending.
 - **`buildPrintDoc()` is the single source of truth for anything print/PDF/image-shaped.** If a print/PDF/exported-image bug is reported, the fix almost always belongs inside this one function (and its embedded `<style>` string), not in the on-screen `UI_RENDERER` table renderer — the two are visually similar but are two entirely separate render paths.
 - **A3 portrait page-fit is computed, not fixed**: the print template calculates row height (`rowH`) as `usableBodyH / rowCount`, where `rowCount` must equal the exact number of `<tr>` rows the template emits (section headers + task rows + any `SECTION_REMARKS` rows, including their own header row). If you add a new kind of row to the print table, you must also add it to this count, or the table silently overflows onto a second page.
