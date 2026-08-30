@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&amp;family=Fraunces:wght@300;400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/4.2.1/jspdf.umd.min.js" integrity="sha512-plOdviVmws4Y3JAvbnpfKb2hVxKM1lCwsi3vmElYRj+tiDLffZ4FVUj5a8vyKJ9pIgl8JCAHEJ4D1iUKBecswg==" crossorigin="anonymous"></script>
 <style>
   :root {
     --navy: #1B4F8A; --navy-light: #2563EB; --amber: #F5A623;
@@ -226,9 +227,9 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2-2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
         Print / PDF
       </button>
-      <button onclick="APP_CORE.exportImage()" class="btn btn-primary" style="background:#0891B2" data-tip="สร้างรูปภาพและคัดลอกเข้าคลิปบอร์ดอัตโนมัติ วาง (Ctrl+V) ในอีเมลได้เลย">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-        สร้างรูปภาพ
+      <button onclick="APP_CORE.exportPDF()" class="btn btn-primary" style="background:#0891B2" data-tip="บันทึกตารางเป็นไฟล์ PDF ลงเครื่องโดยตรง">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 18 15 15"></polyline></svg>
+        บันทึก PDF
       </button>
       <button onclick="UI_RENDERER.showTaskManager()" class="btn btn-amber">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
@@ -5128,6 +5129,7 @@ const UI_RENDERER = (() => {
                 <li><b>◀ / ▶</b> — เปลี่ยนเดือนที่ดูอยู่</li>
                 <li><b>Generate</b> — สร้าง/รีเฟรชตารางของเดือนที่เลือก <b>ต้องกดปุ่มนี้ก่อนเสมอ</b> ก่อนใช้งานฟีเจอร์อื่นๆ</li>
                 <li><b>Print / PDF</b> — เปิดหน้าต่างพิมพ์ของเบราว์เซอร์เพื่อพิมพ์ตาราง</li>
+                <li><b>บันทึก PDF</b> — สร้างไฟล์ PDF ของตารางแล้วดาวน์โหลดลงเครื่องโดยตรง ไม่ต้องผ่านหน้าต่างพิมพ์</li>
                 <li><b>จัดการงาน</b> (สีส้ม) — เปิดหน้าจัดการรายการงานทั้งหมด (เพิ่ม/แก้ไข/ลบ)</li>
                 <li><b>Export JSON / Import JSON</b> — สำรอง/กู้คืนข้อมูลดิบทั้งหมด</li>
                 <li><b>บันทึกพร้อมข้อมูล</b> (สีเขียวอมฟ้า) — บันทึกแอปพร้อมข้อมูลปัจจุบันเป็นไฟล์ .html ใหม่ทั้งไฟล์ ใช้ส่งต่อ/สำรองข้อมูลได้ดีที่สุด</li>
@@ -5199,27 +5201,6 @@ const UI_RENDERER = (() => {
       </div>`;
   }
 
-  function showImagePreview(dataUrl, filename) {
-    const modal = document.getElementById('modalContainer');
-    modal.innerHTML = `
-      <div class="modal-backdrop" onclick="if(event.target===this)UI_RENDERER.closeModal()">
-        <div class="modal slide-up" style="max-width:90vw;width:auto">
-          <div class="flex items-center justify-between mb-4">
-            <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--navy)">🖼️ รูปภาพตารางงาน</h3>
-            <button onclick="UI_RENDERER.closeModal()" class="btn btn-ghost" style="padding:6px 10px">✕</button>
-          </div>
-          <p style="font-size:13px;color:var(--text2);margin-bottom:10px">คลิกขวาที่รูปภาพด้านล่าง แล้วเลือก "คัดลอกรูปภาพ" (Copy image) จากนั้นวาง (Ctrl+V) ในอีเมลได้เลย</p>
-          <div style="max-height:65vh;overflow:auto;border:1px solid var(--border);border-radius:8px;background:#fff">
-            <img src="${dataUrl}" style="display:block;max-width:none" alt="รูปภาพตารางงาน">
-          </div>
-          <div class="flex justify-end gap-2 mt-4">
-            <a href="${dataUrl}" download="${filename}" class="btn btn-primary">ดาวน์โหลดรูปภาพ (PNG)</a>
-            <button onclick="UI_RENDERER.closeModal()" class="btn btn-ghost">ปิด</button>
-          </div>
-        </div>
-      </div>`;
-  }
-
   function closeModal() {
     document.getElementById('modalContainer').innerHTML = '';
   }
@@ -5264,7 +5245,7 @@ const UI_RENDERER = (() => {
     saveLastDate, updateAnchorPreview, toggleScheduleMode, updateCyclePreview,
     showTaskManager, showAddTask, showAddTaskInSection, updateFreqUI, updateAddAnchorPreview, toggleNewSectionInput,
     confirmAddTask, deleteTask, showManual,
-    closeModal, showToast, updateStats, showImagePreview
+    closeModal, showToast, updateStats
   };
 })();
 
@@ -5489,7 +5470,7 @@ const APP_CORE = (() => {
   }
 
   // Builds the full A3 print document (returns the HTML string, or null if there
-  // is nothing to print). Shared by printSchedule() and exportImage() so both produce
+  // is nothing to print). Shared by printSchedule() and exportPDF() so both produce
   // the exact same layout.
   function buildPrintDoc() {
     const state = STATE_STORE.getState();
@@ -5582,9 +5563,11 @@ const APP_CORE = (() => {
   .doc-hdr-logo { width: 22mm; text-align: center; padding: 1mm; }
   .doc-hdr-logo img { height: 12mm; width: auto; display: block; margin: 0 auto; }
   .doc-hdr-title { text-align: center; padding: 2mm; font-size: 10pt; font-weight: bold; font-style: italic; letter-spacing: 0.3px; }
-  .doc-hdr-meta  { width: 52mm; padding: 0 !important; }
+  .doc-hdr-meta  { width: 60mm; padding: 0 !important; }
   .doc-meta-inner { width: 100%; border-collapse: collapse; }
   .doc-meta-inner td { border: 1px solid #000; padding: 0.8mm 2mm; font-size: 6.5pt; vertical-align: middle; }
+  .doc-meta-inner td:first-child { width: 65%; white-space: nowrap; }
+  .doc-meta-inner td:last-child { width: 35%; }
   .doc-cc { font-size: 6.3pt; margin-bottom: 1mm; }
 
   /* ── Table ── */
@@ -5707,10 +5690,9 @@ const APP_CORE = (() => {
   }
 
   // Renders the same document as Print/PDF into a hidden iframe, rasterizes it with
-  // html2canvas, and writes the PNG straight to the clipboard so the user can just
-  // Ctrl+V into an email. Falls back to a preview modal (right-click "Copy image")
-  // if the Clipboard API is unavailable or the write is rejected.
-  async function exportImage() {
+  // html2canvas, then embeds the resulting image into an A3-portrait PDF via jsPDF
+  // and triggers a real file download — no print dialog involved.
+  async function exportPDF() {
     let iframe = null;
     try {
       const html = buildPrintDoc();
@@ -5721,7 +5703,7 @@ const APP_CORE = (() => {
       // Strip the auto window.print() trigger — we only want to render, not print.
       const stripped = html.replace(/<script>\s*window\.addEventListener\('load'[\s\S]*?<\/script>/, '');
 
-      UI_RENDERER.showToast('กำลังสร้างรูปภาพ...', 'info');
+      UI_RENDERER.showToast('กำลังสร้าง PDF...', 'info');
 
       iframe = document.createElement('iframe');
       iframe.style.cssText = 'position:fixed;top:-99999px;left:-99999px;border:0;width:1200px;height:1700px;';
@@ -5745,28 +5727,20 @@ const APP_CORE = (() => {
       document.body.removeChild(iframe);
       iframe = null;
 
-      const filename = `GCM_Schedule_${monthName}_${year}.png`;
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a3' });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      let imgW = pageW, imgH = (canvas.height * imgW) / canvas.width;
+      if (imgH > pageH) { imgH = pageH; imgW = (canvas.width * imgH) / canvas.height; }
 
-      // Try copying straight to the clipboard so the user can just Ctrl+V into an
-      // email — no right-click needed. Falls back to the preview modal below if the
-      // Clipboard API isn't available or the write is rejected (e.g. some file:// setups).
-      if (navigator.clipboard && window.ClipboardItem) {
-        try {
-          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-          UI_RENDERER.showToast('คัดลอกรูปภาพแล้ว วาง (Ctrl+V) ในอีเมลได้เลย ✅', 'success');
-          return;
-        } catch (clipErr) {
-          DEBUG_MODULE.log('WARN', 'Clipboard write failed, falling back to preview', clipErr);
-        }
-      }
-
-      const dataUrl = canvas.toDataURL('image/png');
-      UI_RENDERER.showImagePreview(dataUrl, filename);
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', (pageW - imgW) / 2, (pageH - imgH) / 2, imgW, imgH);
+      pdf.save(`GCM_Schedule_${monthName}_${year}.pdf`);
+      UI_RENDERER.showToast('บันทึกไฟล์ PDF แล้ว ✅', 'success');
     } catch (e) {
       if (iframe) document.body.removeChild(iframe);
-      DEBUG_MODULE.log('ERROR', 'Export image failed', e);
-      UI_RENDERER.showToast('สร้างรูปภาพไม่สำเร็จ: ' + e.message, 'error');
+      DEBUG_MODULE.log('ERROR', 'Export PDF failed', e);
+      UI_RENDERER.showToast('สร้าง PDF ไม่สำเร็จ: ' + e.message, 'error');
     }
   }
 
@@ -5828,7 +5802,7 @@ const APP_CORE = (() => {
     }
   }
 
-  return { init, prevMonth, nextMonth, generate, printSchedule, exportImage, toggleDark };
+  return { init, prevMonth, nextMonth, generate, printSchedule, exportPDF, toggleDark };
 })();
 
 // ============================================================
