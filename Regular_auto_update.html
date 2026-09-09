@@ -3410,8 +3410,9 @@ const APP_CONFIG = (() => {
 // MODULE 2: STATE_STORE
 // ============================================================
 const STATE_STORE = (() => {
+  const _today = new Date();
   let state = {
-    year: 2026, month: 1, // 0-indexed: 1 = February
+    year: _today.getFullYear(), month: _today.getMonth(), // 0-indexed; defaults to the current month
     tasks: [],
     generatedSchedule: null,
     lastSaved: null,
