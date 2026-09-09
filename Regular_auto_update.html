@@ -69,6 +69,12 @@
     font-size:12px; vertical-align:middle;
     background:var(--surface); transition:background 0.2s;
   }
+  .schedule-table .freeze-1 { position:sticky; left:0; }
+  .schedule-table .freeze-2 { position:sticky; left:36px; }
+  .schedule-table .freeze-3 { position:sticky; left:236px; }
+  .schedule-table .freeze-4 { position:sticky; left:306px; box-shadow: 6px 0 8px -6px rgba(15,25,50,.18); }
+  .schedule-table th.freeze-1, .schedule-table th.freeze-2,
+  .schedule-table th.freeze-3, .schedule-table th.freeze-4 { z-index:12; }
   .schedule-table tr:hover td { background:var(--surface2); }
   .section-header td {
     background:var(--surface2) !important;
@@ -160,7 +166,8 @@
       </div>
       <!-- Manual -->
       <button onclick="UI_RENDERER.showManual()" class="btn btn-ghost" style="padding:8px 12px" aria-label="คู่มือการใช้งาน" data-tip="คู่มือการใช้งาน">
-        📖 คู่มือการใช้งาน
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        คู่มือการใช้งาน
       </button>
       <!-- Signature -->
       <div style="font-size:13px;color:var(--navy);background:var(--surface2);padding:6px 14px;border-radius:8px;border:1px solid var(--border)">
@@ -249,10 +256,10 @@
       <table class="schedule-table" id="scheduleTable" aria-label="Monthly Work Schedule" style="">
         <thead id="tableHead">
       <tr>
-        <th rowspan="3" style="min-width:36px">No.</th>
-        <th rowspan="3" style="min-width:200px;text-align:left;padding-left:10px">งาน (Work)</th>
-        <th rowspan="3" style="min-width:70px">Time/Shift</th>
-        <th rowspan="3" style="min-width:120px">Frequency</th>
+        <th rowspan="3" class="freeze-1" style="min-width:36px">No.</th>
+        <th rowspan="3" class="freeze-2" style="min-width:200px;text-align:left;padding-left:10px">งาน (Work)</th>
+        <th rowspan="3" class="freeze-3" style="min-width:70px">Time/Shift</th>
+        <th rowspan="3" class="freeze-4" style="min-width:120px">Frequency</th>
         <th colspan="31" style="background:var(--navy-soft);color:var(--navy-soft-text);text-align:center">January 2027</th>
         <th rowspan="3" style="min-width:70px;position:sticky;right:0;z-index:11">จัดการ</th>
       </tr>
@@ -263,93 +270,93 @@
         <th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Fri</th><th class="day-sat" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sat</th><th class="day-sun" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sun</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Mon</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Tue</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Wed</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Thu</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Fri</th><th class="day-sat" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sat</th><th class="day-sun" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sun</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Mon</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Tue</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Wed</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Thu</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Fri</th><th class="day-sat" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sat</th><th class="day-sun" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sun</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Mon</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Tue</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Wed</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Thu</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Fri</th><th class="day-sat" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sat</th><th class="day-sun" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sun</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Mon</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Tue</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Wed</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Thu</th><th class="" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Fri</th><th class="day-sat" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sat</th><th class="day-sun" style="min-width:28px;width:28px;padding:3px 1px;font-size:9px">Sun</th>
       </tr></thead>
         <tbody id="tableBody"><tr class="section-header"><td colspan="36">NaOH Washing</td></tr><tr id="row-t001">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">1</td>
-          <td style="padding-left:10px;font-size:12px">TM-300A</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/25 days (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">1</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TM-300A</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/25 days (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 25 Day at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t001')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t001')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t001')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t002">
-          <td style="text-align:center;font-weight:600;color:var(--navy)"></td>
-          <td style="padding-left:10px;font-size:12px">TM-300B</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/25 days (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)"></td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TM-300B</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/25 days (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 25 Day at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t002')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t002')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t002')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t003">
-          <td style="text-align:center;font-weight:600;color:var(--navy)"></td>
-          <td style="padding-left:10px;font-size:12px">TM-300C</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/25 days (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)"></td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TM-300C</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/25 days (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 25 Day at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t003')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t003')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t003')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t004">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">2</td>
-          <td style="padding-left:10px;font-size:12px">TM-301A</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">Night</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/70 hrs (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">2</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TM-301A</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">Night</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/70 hrs (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 72 Hr at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t004')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t004')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t004')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t005">
-          <td style="text-align:center;font-weight:600;color:var(--navy)"></td>
-          <td style="padding-left:10px;font-size:12px">TM-301B</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">Night</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/70 hrs (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)"></td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TM-301B</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">Night</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/70 hrs (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 72 Hr at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t005')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t005')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t005')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t006">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">3</td>
-          <td style="padding-left:10px;font-size:12px">TM-501+TM-502+TM-503+TD-509</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">01:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/7 days (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">3</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TM-501+TM-502+TM-503+TD-509</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">01:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/7 days (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 10 Day at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t006')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t006')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t006')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t007">
-          <td style="text-align:center;font-weight:600;color:var(--navy)"></td>
-          <td style="padding-left:10px;font-size:12px">TD-505</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">01:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/7 days (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)"></td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TD-505</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">01:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/7 days (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 10 Day at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t007')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t007')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t007')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t008">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">4</td>
-          <td style="padding-left:10px;font-size:12px">Solvent Online Analyzer</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/7 days (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">4</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Solvent Online Analyzer</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/7 days (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 30 Day at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t008')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t008')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t008')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t009">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">5</td>
-          <td style="padding-left:10px;font-size:12px">TP-107 Suction</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">11:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">5</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">TP-107 Suction</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">11:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Follow operation time 25 Day at DCS</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t009')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t009')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t009')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr>
@@ -359,10 +366,10 @@
           </button>
         </td>
       </tr><tr class="section-header"><td colspan="36">Regular Work</td></tr><tr id="row-t010">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">1</td>
-          <td style="padding-left:10px;font-size:12px">Purging Stand Line of TD-201</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/10 days</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">1</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Purging Stand Line of TD-201</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/10 days</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t010',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -427,14 +434,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t010',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t010')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t010')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t010')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t013">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">2</td>
-          <td style="padding-left:10px;font-size:12px">FDQ Purging of TM-302 Chute and check sight glass</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">10:00 &amp; 22:00</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/day</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">2</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">FDQ Purging of TM-302 Chute and check sight glass</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">10:00 &amp; 22:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/day</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t013',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -499,14 +506,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t013',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t013')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t013')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t013')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t014">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">3</td>
-          <td style="padding-left:10px;font-size:12px">Check vibration RO unit</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">10:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/6 months</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">3</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Check vibration RO unit</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">10:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/6 months</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t014',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -571,14 +578,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t014',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t014')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t014')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t014')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t017">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">4</td>
-          <td style="padding-left:10px;font-size:12px">Drain ML and flush PG-1301A, PG-1507</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">17:00</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">4</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Drain ML and flush PG-1301A, PG-1507</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">17:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t017',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -643,14 +650,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t017',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t017')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t017')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t017')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t018">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">5</td>
-          <td style="padding-left:10px;font-size:12px">Flush BTM TM-203</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/shift</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">5</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Flush BTM TM-203</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/shift</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t018',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -715,14 +722,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t018',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t018')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t018')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t018')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t020">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">6</td>
-          <td style="padding-left:10px;font-size:12px">Flush min flow TP-301</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">09:00 &amp; 21:00</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/day</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">6</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Flush min flow TP-301</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">09:00 &amp; 21:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/day</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t020',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -787,14 +794,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t020',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t020')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t020')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t020')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t027">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">7</td>
-          <td style="padding-left:10px;font-size:12px">Start TP-253B / Turning Gear TM-1145 ~ 1 Hr.</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">15:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/week</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">7</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Start TP-253B / Turning Gear TM-1145 ~ 1 Hr.</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">15:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/week</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t027',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -859,14 +866,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t027',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t027')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t027')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t027')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t028">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">8</td>
-          <td style="padding-left:10px;font-size:12px">Steam Purge TM-507 &amp; disc, suc pump TP-507</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">01:00</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/Day</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">8</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Steam Purge TM-507 &amp; disc, suc pump TP-507</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">01:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/Day</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t028',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -931,14 +938,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t028',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t028')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t028')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t028')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t030">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">9</td>
-          <td style="padding-left:10px;font-size:12px">Flushing line cir TD-507</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">23:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/Day</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">9</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Flushing line cir TD-507</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">23:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/Day</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t030',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1003,14 +1010,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t030',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t030')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t030')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t030')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t035">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">10</td>
-          <td style="padding-left:10px;font-size:12px">NaOH washing  TT-400  by run TP-400</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
-          <td style="font-size:11px;color:var(--text2)">1time/ week</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">10</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">NaOH washing  TT-400  by run TP-400</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1time/ week</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t035',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1075,14 +1082,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t035',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t035')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t035')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t035')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t036">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">11</td>
-          <td style="padding-left:10px;font-size:12px">Clean TZ-1134</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">14:00</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">11</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Clean TZ-1134</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">14:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t036',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1147,14 +1154,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t036',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t036')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t036')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t036')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t037">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">12</td>
-          <td style="padding-left:10px;font-size:12px">3S Purge LC-1509 TD-509, LC-1505B TD-505</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">10:00 &amp; 22:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/ Shift</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">12</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">3S Purge LC-1509 TD-509, LC-1505B TD-505</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">10:00 &amp; 22:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/ Shift</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t037',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1219,14 +1226,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t037',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t037')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t037')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t037')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t038">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">13</td>
-          <td style="padding-left:10px;font-size:12px">Inform subcontract send RQ sampling lab room to TD-701</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/week</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">13</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Inform subcontract send RQ sampling lab room to TD-701</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/week</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t038',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1291,7 +1298,7 @@
                 <span onclick="UI_RENDERER.toggleDay('t038',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t038')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t038')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t038')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr>
@@ -1301,63 +1308,63 @@
           </button>
         </td>
       </tr><tr class="section-header"><td colspan="36">PTA - NaOH Washing</td></tr><tr id="row-t039">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">1</td>
-          <td style="padding-left:10px;font-size:12px">PM-401A</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">Normal stand by (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">1</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">PM-401A</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">Normal stand by (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Normal stand by (Follow DCS)</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t039')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t039')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t039')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t040">
-          <td style="text-align:center;font-weight:600;color:var(--navy)"></td>
-          <td style="padding-left:10px;font-size:12px">PM-401B</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">Normal stand by (Follow DCS)</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)"></td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">PM-401B</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">Normal stand by (Follow DCS)</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Normal stand by (Follow DCS)</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t040')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t040')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t040')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t041">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">2</td>
-          <td style="padding-left:10px;font-size:12px">Washing PM-402A</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">NaOH washing when PC-2405 = -550 mmH2O</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">2</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Washing PM-402A</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">NaOH washing when PC-2405 = -550 mmH2O</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">NaOH washing when PC-2405 = -550 mmH2O</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t041')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t041')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t041')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t042">
-          <td style="text-align:center;font-weight:600;color:var(--navy)"></td>
-          <td style="padding-left:10px;font-size:12px">Washing PM-402B</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">NaOH washing when PC-2405 = -550 mmH2O</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)"></td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Washing PM-402B</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">NaOH washing when PC-2405 = -550 mmH2O</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">NaOH washing when PC-2405 = -550 mmH2O</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t042')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t042')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t042')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t043">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">3</td>
-          <td style="padding-left:10px;font-size:12px">Washing ML line of PM-401 A/B/D</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">NaOH washing ML line every No.3 &amp; No.6</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">3</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Washing ML line of PM-401 A/B/D</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">NaOH washing ML line every No.3 &amp; No.6</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">NaOH washing ML line every No.3 &amp; No.6</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t043')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t043')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t043')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t044">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">4</td>
-          <td style="padding-left:10px;font-size:12px">Washing PE-403</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">If FI-2407 fouling, use NaOH washing PE-403</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">4</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Washing PE-403</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">If FI-2407 fouling, use NaOH washing PE-403</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">If FI-2407 fouling, use NaOH washing PE-403</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t044')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t044')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t044')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr>
@@ -1367,10 +1374,10 @@
           </button>
         </td>
       </tr><tr class="section-header"><td colspan="36">PTA - Regular Work</td></tr><tr id="row-t045">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">1</td>
-          <td style="padding-left:10px;font-size:12px">PT-501 Bottom Blowing</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/5 days</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">1</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">PT-501 Bottom Blowing</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/5 days</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t045',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1435,14 +1442,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t045',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t045')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t045')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t045')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t046">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">2</td>
-          <td style="padding-left:10px;font-size:12px">Vat wash RVF</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/shift</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">2</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Vat wash RVF</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/shift</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t046',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1507,24 +1514,24 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t046',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t046')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t046')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t046')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t047">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">3</td>
-          <td style="padding-left:10px;font-size:12px">LPW Purging PM-401A/B/C</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">Cancel, Operate PM-401D</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">3</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">LPW Purging PM-401A/B/C</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">Cancel, Operate PM-401D</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Cancel, Operate PM-401D</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t047')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t047')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t047')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t048">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">4</td>
-          <td style="padding-left:10px;font-size:12px">PM-403 Purging (operation of RVF)</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">10:00 &amp; 22:00</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/ day</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">4</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">PM-403 Purging (operation of RVF)</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">10:00 &amp; 22:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/ day</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t048',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1589,14 +1596,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t048',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t048')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t048')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t048')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t049">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">5</td>
-          <td style="padding-left:10px;font-size:12px">Close Test LCV-2403</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/day</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">5</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Close Test LCV-2403</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/day</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t049',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1661,14 +1668,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t049',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t049')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t049')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t049')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t050">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">6</td>
-          <td style="padding-left:10px;font-size:12px">LPW flushing PM-103/ Knocking short pipe PM-105/ LPW washing PP-102</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/shift</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">6</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">LPW flushing PM-103/ Knocking short pipe PM-105/ LPW washing PP-102</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/shift</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t050',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1733,14 +1740,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t050',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t050')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t050')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t050')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t051">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">7</td>
-          <td style="padding-left:10px;font-size:12px">Vent PP-601 A/B/C (Pump stand by only)</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">7</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Vent PP-601 A/B/C (Pump stand by only)</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t051',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1805,14 +1812,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t051',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t051')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t051')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t051')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t052">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">8</td>
-          <td style="padding-left:10px;font-size:12px">Check temp.cooling jacket PP-502A/B , PP-405A/B , PP-410</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">8</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Check temp.cooling jacket PP-502A/B , PP-405A/B , PP-410</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t052',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1877,14 +1884,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t052',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t052')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t052')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t052')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t053">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">9</td>
-          <td style="padding-left:10px;font-size:12px">Clean sensor tube of PC-2412 at PM-403</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">N</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/5 days</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">9</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Clean sensor tube of PC-2412 at PM-403</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">N</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/5 days</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t053',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -1949,14 +1956,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t053',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t053')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t053')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t053')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t054">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">10</td>
-          <td style="padding-left:10px;font-size:12px">Switching PP-101 A/B for check suc.strainer</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">10</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Switching PP-101 A/B for check suc.strainer</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t054',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2021,14 +2028,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t054',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t054')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t054')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t054')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t055">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">11</td>
-          <td style="padding-left:10px;font-size:12px">Running lube oil of PP-102 (stand by pump)</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/week</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">11</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Running lube oil of PP-102 (stand by pump)</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/week</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t055',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2093,14 +2100,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t055',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t055')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t055')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t055')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t056">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">12</td>
-          <td style="padding-left:10px;font-size:12px">Switch PP-304A-&gt;B for prevent suction plug</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/6 month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">12</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Switch PP-304A-&gt;B for prevent suction plug</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/6 month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t056',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2165,14 +2172,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t056',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t056')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t056')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t056')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t057">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">13</td>
-          <td style="padding-left:10px;font-size:12px">Switch PP-402A-&gt;B for prevent suction plug</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/6 month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">13</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Switch PP-402A-&gt;B for prevent suction plug</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">not fix</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/6 month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t057',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2237,14 +2244,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t057',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t057')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t057')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t057')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t058">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">14</td>
-          <td style="padding-left:10px;font-size:12px">Cleaning seal pot PZ-905</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/week</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">14</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Cleaning seal pot PZ-905</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">13:00</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/week</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t058',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2309,14 +2316,14 @@
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t058',31)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t058')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t058')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t058')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t059">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">15</td>
-          <td style="padding-left:10px;font-size:12px">Depressurize PM-401A for drain water</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">15</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Depressurize PM-401A for drain water</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t059',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2381,14 +2388,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t059',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t059')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t059')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t059')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t060">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">16</td>
-          <td style="padding-left:10px;font-size:12px">Depressurize PM-401B for drain water</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">16</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Depressurize PM-401B for drain water</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t060',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2453,14 +2460,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t060',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t060')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t060')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t060')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t061">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">17</td>
-          <td style="padding-left:10px;font-size:12px">Washing PT-501 by NaOH</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">17</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Washing PT-501 by NaOH</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t061',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2525,14 +2532,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t061',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t061')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t061')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t061')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t062">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">18</td>
-          <td style="padding-left:10px;font-size:12px">Purge stand line PD-501</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">2 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">18</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Purge stand line PD-501</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">2 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t062',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2597,34 +2604,34 @@
                 <span onclick="UI_RENDERER.toggleDay('t062',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t062')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t062')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t062')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t063">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">19</td>
-          <td style="padding-left:10px;font-size:12px">Inspect screen PM-802A/B/C</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M,N</td>
-          <td style="font-size:11px;color:var(--text2)">Every 20 batch</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">19</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Inspect screen PM-802A/B/C</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M,N</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">Every 20 batch</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">Every 20 batch</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t063')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t063')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t063')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t064">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">20</td>
-          <td style="padding-left:10px;font-size:12px">NaOH washing LI-2901</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">No.3,6</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">20</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">NaOH washing LI-2901</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">No.3,6</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">No.3, 6</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t064')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t064')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t064')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t065">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">21</td>
-          <td style="padding-left:10px;font-size:12px">Drain light oil PZ-601</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/week</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">21</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Drain light oil PZ-601</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/week</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t065',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2689,17 +2696,17 @@
                 <span onclick="UI_RENDERER.toggleDay('t065',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t065')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t065')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t065')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t066">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">22</td>
-          <td style="padding-left:10px;font-size:12px">Purge stand line PD-303</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">As needed</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">22</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Purge stand line PD-303</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">As needed</td>
           <td colspan="31" style="text-align:center;font-style:italic;color:var(--text2);font-size:11px;padding:6px 12px;background:var(--surface2);border-left:3px solid var(--border)">As needed</td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t066')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t066')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t066')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr>
@@ -2709,10 +2716,10 @@
           </button>
         </td>
       </tr><tr class="section-header"><td colspan="36">Common Work (TA &amp; PTA)</td></tr><tr id="row-t067">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">1</td>
-          <td style="padding-left:10px;font-size:12px">Checking Seal Pot</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/ month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">1</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Checking Seal Pot</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/ month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span class="o-badge" onclick="UI_RENDERER.toggleDay('t067',1)" data-tip="คลิกเพื่อยกเลิก">O</span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2777,14 +2784,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t067',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t067')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t067')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t067')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t068">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">2</td>
-          <td style="padding-left:10px;font-size:12px">Check Key (CSO &amp; CSC)</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/3 months</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">2</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Check Key (CSO &amp; CSC)</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/3 months</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t068',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2849,14 +2856,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t068',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t068')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t068')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t068')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t069">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">3</td>
-          <td style="padding-left:10px;font-size:12px">Checking Steam Trap</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">3</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Checking Steam Trap</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t069',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2921,14 +2928,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t069',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t069')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t069')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t069')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t070">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">4</td>
-          <td style="padding-left:10px;font-size:12px">Checking Leakage of FG &amp; H2 Line</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">4</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Checking Leakage of FG &amp; H2 Line</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t070',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -2993,14 +3000,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t070',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t070')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t070')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t070')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t071">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">5</td>
-          <td style="padding-left:10px;font-size:12px">Function test PC-2801A/B/C , PC-1400</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">5</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Function test PC-2801A/B/C , PC-1400</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t071',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -3065,14 +3072,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t071',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t071')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t071')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t071')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t072">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">6</td>
-          <td style="padding-left:10px;font-size:12px">Check pulse unit PM-803A/B/C , PM-104</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">6</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Check pulse unit PM-803A/B/C , PM-104</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t072',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -3137,14 +3144,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t072',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t072')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t072')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t072')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t073">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">7</td>
-          <td style="padding-left:10px;font-size:12px">Check fixed ladder/Rotating gauge/Gutter</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/month</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">7</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Check fixed ladder/Rotating gauge/Gutter</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/month</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t073',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -3209,14 +3216,14 @@
                 <span onclick="UI_RENDERER.toggleDay('t073',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t073')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t073')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t073')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr id="row-t074">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">8</td>
-          <td style="padding-left:10px;font-size:12px">Check hose</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">M</td>
-          <td style="font-size:11px;color:var(--text2)">1 time/3 months</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">8</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">Check hose</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">M</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">1 time/3 months</td>
           <td class="" style="text-align:center;padding:2px">
                 <span onclick="UI_RENDERER.toggleDay('t074',1)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td><td class="day-sat" style="text-align:center;padding:2px">
@@ -3281,7 +3288,7 @@
                 <span onclick="UI_RENDERER.toggleDay('t074',31)" style="display:inline-block;width:24px;height:24px;cursor:pointer;border-radius:50%;transition:background 0.15s" onmouseover="this.style.background='var(--o-bg)'" onmouseout="this.style.background='transparent'"></span>
               </td>
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
-            <button onclick="UI_RENDERER.editTask('t074')" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+            <button onclick="UI_RENDERER.editTask('t074')" style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('t074')" style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
         </tr><tr>
@@ -3293,10 +3300,19 @@
       </tr></tbody>
       </table>
     </div>
-    <div id="emptyState" style="display: none; text-align: center; padding: 60px 20px;">
-      <div style="font-size:48px;margin-bottom:12px">📋</div>
-      <div style="font-size:16px;font-weight:600;color:var(--text2)">กด Generate เพื่อสร้างตาราง</div>
-      <div style="font-size:13px;color:var(--text2);margin-top:4px">ระบบจะคำนวณวันที่อัตโนมัติจาก Last Date</div>
+    <div id="emptyState" style="display: none; text-align: center; padding: 72px 20px;">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--border-strong)" stroke-width="1.5" style="margin:0 auto 16px">
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        <path d="M8 11h8"></path>
+        <path d="M8 15h5"></path>
+      </svg>
+      <div style="font-size:16px;font-weight:600;color:var(--text)">กด Generate เพื่อสร้างตาราง</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:4px;margin-bottom:20px">ระบบจะคำนวณวันที่อัตโนมัติจาก Last Date</div>
+      <button class="btn btn-primary" onclick="APP_CORE.generate()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        Generate
+      </button>
     </div>
   </div>
 
@@ -3794,6 +3810,8 @@ const renumberTasks = UTILS.renumberTasks;
 // MODULE 5: UI_RENDERER
 // ============================================================
 const UI_RENDERER = (() => {
+  let _pendingConfirmAction = null;
+  let _pendingCancelAction = null;
 
   function getDayClass(year, month, day) {
     const d = new Date(year, month, day).getDay();
@@ -3807,10 +3825,10 @@ const UI_RENDERER = (() => {
 
     head.innerHTML = `
       <tr>
-        <th rowspan="3" style="min-width:36px">No.</th>
-        <th rowspan="3" style="min-width:200px;text-align:left;padding-left:10px">งาน (Work)</th>
-        <th rowspan="3" style="min-width:70px">Time/Shift</th>
-        <th rowspan="3" style="min-width:120px">Frequency</th>
+        <th rowspan="3" class="freeze-1" style="min-width:36px">No.</th>
+        <th rowspan="3" class="freeze-2" style="min-width:200px;text-align:left;padding-left:10px">งาน (Work)</th>
+        <th rowspan="3" class="freeze-3" style="min-width:70px">Time/Shift</th>
+        <th rowspan="3" class="freeze-4" style="min-width:120px">Frequency</th>
         <th colspan="${days}" style="background:var(--navy-soft);color:var(--navy-soft-text);text-align:center">${APP_CONFIG.MONTH_EN[month]} ${year}</th>
         <th rowspan="3" style="min-width:70px;position:sticky;right:0;z-index:11">จัดการ</th>
       </tr>
@@ -3865,14 +3883,14 @@ const UI_RENDERER = (() => {
         }
 
         html += `<tr id="row-${task.id}">
-          <td style="text-align:center;font-weight:600;color:var(--navy)">${noText}</td>
-          <td style="padding-left:10px;font-size:12px">${escapeHtml(task.name)}</td>
-          <td style="text-align:center;font-size:11px;color:var(--text2)">${escapeHtml(task.shift)}</td>
-          <td style="font-size:11px;color:var(--text2)">${escapeHtml(task.freqLabel)}</td>
+          <td class="freeze-1" style="text-align:center;font-weight:600;color:var(--navy)">${noText}</td>
+          <td class="freeze-2" style="padding-left:10px;font-size:12px">${escapeHtml(task.name)}</td>
+          <td class="freeze-3" style="text-align:center;font-size:11px;color:var(--text2)">${escapeHtml(task.shift)}</td>
+          <td class="freeze-4" style="font-size:11px;color:var(--text2)">${escapeHtml(task.freqLabel)}</td>
           ${daysCells}
           <td style="text-align:center;padding:2px;position:sticky;right:0;background:var(--surface);white-space:nowrap">
             <button onclick="UI_RENDERER.editTask('${task.id}')"
-              style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px" title="แก้ไข">✏️</button>
+              style="background:none;border:none;cursor:pointer;padding:2px 4px;display:inline-flex" title="แก้ไข"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
             <button onclick="UI_RENDERER.deleteTask('${task.id}')"
               style="background:none;border:none;cursor:pointer;color:var(--danger);padding:2px 4px;display:inline-flex" title="ลบ"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
           </td>
@@ -4235,7 +4253,7 @@ const UI_RENDERER = (() => {
     await STORAGE_ENGINE.saveTasks(tasks);
     closeModal();
     await APP_CORE.generate();
-    showToast('บันทึกเรียบร้อยแล้ว ✅', 'success');
+    showToast('บันทึกเรียบร้อยแล้ว', 'success');
   }
 
   function editLastDate(taskId) {
@@ -4598,7 +4616,7 @@ const UI_RENDERER = (() => {
     closeModal();
     DEBUG_MODULE.log('INFO', `Schedule updated for ${taskId}`);
     APP_CORE.generate();
-    showToast('บันทึกเรียบร้อยแล้ว ✅', 'success');
+    showToast('บันทึกเรียบร้อยแล้ว', 'success');
   }
 
   function showTaskManager() {
@@ -4633,8 +4651,8 @@ const UI_RENDERER = (() => {
                     <td style="padding:8px;text-align:center;font-size:10px;color:var(--text2)">${escapeHtml(t.freqLabel)}</td>
                     <td style="padding:8px;text-align:center;font-size:11px">${t.lastDate || '<span style="color:var(--text2)">-</span>'}</td>
                     <td style="padding:8px;text-align:center">
-                      <button onclick="UI_RENDERER.closeModal();UI_RENDERER.editTask('${t.id}')" class="btn btn-ghost" style="padding:4px 8px;font-size:11px">✏️</button>
-                      <button onclick="UI_RENDERER.deleteTask('${t.id}')" class="btn btn-danger" style="padding:4px 8px;font-size:11px">🗑️</button>
+                      <button onclick="UI_RENDERER.closeModal();UI_RENDERER.editTask('${t.id}')" class="btn btn-ghost" style="padding:4px 8px;font-size:11px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
+                      <button onclick="UI_RENDERER.deleteTask('${t.id}')" class="btn btn-danger" style="padding:4px 8px;font-size:11px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                     </td>
                   </tr>`).join('')}
               </tbody>
@@ -5042,20 +5060,21 @@ const UI_RENDERER = (() => {
     STATE_STORE.setState({ tasks });
     await STORAGE_ENGINE.saveTasks(tasks);
     closeModal();
-    showToast('เพิ่มงานสำเร็จ ✅', 'success');
+    showToast('เพิ่มงานสำเร็จ', 'success');
     APP_CORE.generate();
   }
 
-  async function deleteTask(taskId) {
-    if (!confirm('ยืนยันลบรายการงานนี้?')) return;
-    const state = STATE_STORE.getState();
-    let tasks = state.tasks.filter(t => t.id !== taskId);
-    tasks = renumberTasks(tasks);
-    STATE_STORE.setState({ tasks });
-    await STORAGE_ENGINE.saveTasks(tasks);
-    closeModal();
-    APP_CORE.generate();
-    showToast('ลบงานเรียบร้อยแล้ว', 'success');
+  function deleteTask(taskId) {
+    showConfirmModal('ยืนยันลบรายการงานนี้?', async () => {
+      const state = STATE_STORE.getState();
+      let tasks = state.tasks.filter(t => t.id !== taskId);
+      tasks = renumberTasks(tasks);
+      STATE_STORE.setState({ tasks });
+      await STORAGE_ENGINE.saveTasks(tasks);
+      closeModal();
+      APP_CORE.generate();
+      showToast('ลบงานเรียบร้อยแล้ว', 'success');
+    });
   }
 
   function showManual() {
@@ -5064,8 +5083,8 @@ const UI_RENDERER = (() => {
       <div class="modal-backdrop" onclick="if(event.target===this)UI_RENDERER.closeModal()">
         <div class="modal slide-up" style="max-width:720px">
           <div class="flex items-center justify-between mb-4">
-            <h3 style="font-size:18px;font-weight:700;color:var(--navy)">📖 คู่มือการใช้งาน</h3>
-            <button onclick="UI_RENDERER.closeModal()" class="btn btn-ghost" style="padding:6px 10px">✕</button>
+            <h3 style="font-size:18px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>คู่มือการใช้งาน</h3>
+            <button onclick="UI_RENDERER.closeModal()" class="btn btn-ghost" style="padding:6px 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
           </div>
           <div style="max-height:60vh;overflow-y:auto;font-size:13px;line-height:1.7;color:var(--text)">
 
@@ -5171,14 +5190,50 @@ const UI_RENDERER = (() => {
     document.getElementById('modalContainer').innerHTML = '';
   }
 
+  function showConfirmModal(message, onConfirm, opts = {}) {
+    _pendingConfirmAction = onConfirm;
+    _pendingCancelAction = opts.onCancel || closeModal;
+    const modal = document.getElementById('modalContainer');
+    modal.innerHTML = `
+      <div class="modal-backdrop" onclick="if(event.target===this)UI_RENDERER._confirmModalCancel()">
+        <div class="modal slide-up" style="max-width:420px">
+          <p style="font-size:14px;color:var(--text);margin-bottom:20px">${escapeHtml(message)}</p>
+          <div class="flex justify-end gap-2">
+            <button onclick="UI_RENDERER._confirmModalCancel()" class="btn btn-ghost">${escapeHtml(opts.cancelLabel || 'ยกเลิก')}</button>
+            <button onclick="UI_RENDERER._confirmModalConfirm()" class="btn btn-danger">${escapeHtml(opts.confirmLabel || 'ยืนยันลบ')}</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function _confirmModalConfirm() {
+    const fn = _pendingConfirmAction;
+    _pendingConfirmAction = null;
+    _pendingCancelAction = null;
+    if (fn) fn();
+  }
+
+  function _confirmModalCancel() {
+    const fn = _pendingCancelAction;
+    _pendingConfirmAction = null;
+    _pendingCancelAction = null;
+    if (fn) fn();
+  }
+
   function showToast(msg, type = 'info') {
     const colors = { success: '#1A7444', error: '#B3261E', info: '#1D4ED8', warning: '#8A5A08' };
-    const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+    const icons = {
+      success: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="16 10 11 15 8 12"></polyline></svg>',
+      error: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+      info: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>',
+      warning: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
+    };
     const el = document.createElement('div');
     el.className = 'toast-enter';
     el.style.cssText = `background:${colors[type]};color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);display:flex;align-items:center;gap:8px`;
     const icon = document.createElement('span');
-    icon.textContent = icons[type];
+    icon.style.cssText = 'display:flex;flex-shrink:0';
+    icon.innerHTML = icons[type];
     const text = document.createElement('span');
     text.textContent = msg; // safe: textContent
     el.appendChild(icon);
@@ -5211,7 +5266,8 @@ const UI_RENDERER = (() => {
     saveLastDate, updateAnchorPreview, toggleScheduleMode, updateCyclePreview,
     showTaskManager, showAddTask, showAddTaskInSection, updateFreqUI, updateAddAnchorPreview, toggleNewSectionInput,
     confirmAddTask, deleteTask, showManual,
-    closeModal, showToast, updateStats
+    closeModal, showToast, updateStats,
+    showConfirmModal, _confirmModalConfirm, _confirmModalCancel
   };
 })();
 
@@ -5254,7 +5310,7 @@ const EXPORT_ENGINE = (() => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    UI_RENDERER.showToast('Export JSON สำเร็จ ✅', 'success');
+    UI_RENDERER.showToast('Export JSON สำเร็จ', 'success');
   }
 
   function importJSON() {
@@ -5294,7 +5350,7 @@ const EXPORT_ENGINE = (() => {
           }
         }
         await APP_CORE.generate();
-        UI_RENDERER.showToast(`นำเข้าข้อมูลสำเร็จ ✅ (${validTasks.length} รายการ)`, 'success');
+        UI_RENDERER.showToast(`นำเข้าข้อมูลสำเร็จ (${validTasks.length} รายการ)`, 'success');
       } catch (err) {
         DEBUG_MODULE.log('ERROR', 'Import JSON failed', err);
         UI_RENDERER.showToast('นำเข้าไม่สำเร็จ: ' + err.message, 'error');
@@ -5355,7 +5411,7 @@ const EXPORT_ENGINE = (() => {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      UI_RENDERER.showToast('บันทึก HTML พร้อมข้อมูลสำเร็จ ✅', 'success');
+      UI_RENDERER.showToast('บันทึก HTML พร้อมข้อมูลสำเร็จ', 'success');
     } catch (err) {
       DEBUG_MODULE.log('ERROR', 'Save standalone HTML failed', err);
       UI_RENDERER.showToast('บันทึกไม่สำเร็จ: ' + err.message, 'error');
@@ -5702,7 +5758,7 @@ const APP_CORE = (() => {
 
       pdf.addImage(canvas.toDataURL('image/png'), 'PNG', (pageW - imgW) / 2, (pageH - imgH) / 2, imgW, imgH);
       pdf.save(`GCM_Schedule_${monthName}_${year}.pdf`);
-      UI_RENDERER.showToast('บันทึกไฟล์ PDF แล้ว ✅', 'success');
+      UI_RENDERER.showToast('บันทึกไฟล์ PDF แล้ว', 'success');
     } catch (e) {
       if (iframe) document.body.removeChild(iframe);
       DEBUG_MODULE.log('ERROR', 'Export PDF failed', e);
