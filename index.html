@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regular Work — GC-M PTA</title>
+<meta name="description" content="เลือกโรงงานเพื่อเปิดตารางงานบำรุงรักษาประจำเดือน (Regular Work) ของ GC-M PTA">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  /* Supasit.A Studio tokens — same values as the schedule apps (light); dark set measured for >=4.5:1 */
+  :root {
+    --bg: #F7F9FC; --surface: #FFFFFF; --border: #D6DEEE;
+    --text: #131829; --text2: #414A60;
+    --navy: #1D4ED8; --navy-light: #173DA8; --on-navy: #FFFFFF; --ring: #173DA8;
+    --shadow: 0 1px 2px rgba(15,25,50,.06);
+    --r-lg: 13px; --r-btn: 999px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0F1424; --surface: #171D30; --border: #2A3350;
+      --text: #E8ECF7; --text2: #A9B3CC;
+      --navy: #2F5BE0; --navy-light: #2247C0; --on-navy: #FFFFFF; --ring: #8FAAFF;
+      --shadow: 0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    background: var(--bg); color: var(--text);
+    font-family: 'Noto Sans Thai', sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 40px 16px 24px;
+  }
+  main { width: 100%; max-width: 640px; flex: 1; }
+  h1 { font-size: 24px; font-weight: 700; margin: 0 0 6px; }
+  .sub { color: var(--text2); font-size: 14px; line-height: 1.6; margin: 0 0 28px; }
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--r-lg); box-shadow: var(--shadow);
+    padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .card h2 { font-size: 16px; font-weight: 600; margin: 0 0 2px; }
+  .card p { font-size: 13px; color: var(--text2); margin: 0; line-height: 1.5; }
+  .open {
+    flex-shrink: 0; min-height: 44px; min-width: 88px; padding: 0 20px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--r-btn); background: var(--navy); color: var(--on-navy);
+    font-weight: 600; font-size: 14px; text-decoration: none;
+    transition: background .16s cubic-bezier(.4,0,.2,1);
+  }
+  .open:hover { background: var(--navy-light); }
+  .open:focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; }
+  .note {
+    margin-top: 24px; font-size: 13px; color: var(--text2); line-height: 1.7;
+    border-left: 3px solid var(--border); padding-left: 12px;
+  }
+  footer { margin-top: 32px; font-size: 12px; color: var(--text2); text-align: center; }
+  @media (max-width: 480px) {
+    .card { flex-direction: column; align-items: stretch; }
+    .open { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Regular Work — GC-M PTA</h1>
+  <p class="sub">ตารางงานบำรุงรักษาประจำเดือน เลือกโรงงานที่ต้องการเปิด</p>
+
+  <ul class="list">
+    <li class="card">
+      <div>
+        <h2>CTA &amp; PTA No.1 Plant</h2>
+        <p>ตารางงานประจำเดือนของพื้นที่ CTA และ PTA No.1</p>
+      </div>
+      <a class="open" href="Regular_auto_update.html" aria-label="เปิดตารางงาน CTA และ PTA No.1 Plant">เปิด</a>
+    </li>
+    <li class="card">
+      <div>
+        <h2>PTA No.2 Plant</h2>
+        <p>ตารางงานประจำเดือนของพื้นที่ CTA และ PTA No.2</p>
+      </div>
+      <a class="open" href="Regular_auto_update_PTA_No2.html" aria-label="เปิดตารางงาน PTA No.2 Plant">เปิด</a>
+    </li>
+    <li class="card">
+      <div>
+        <h2>PTA No.3 Plant</h2>
+        <p>ตารางงานประจำเดือนของพื้นที่ PTA No.3</p>
+      </div>
+      <a class="open" href="Regular_auto_update_PTA_No3.html" aria-label="เปิดตารางงาน PTA No.3 Plant">เปิด</a>
+    </li>
+  </ul>
+
+  <p class="note">ข้อมูลที่แก้ไขเก็บอยู่ในเบราว์เซอร์ของเครื่องที่เปิดใช้งาน ไม่ซิงค์ข้ามเครื่อง แต่ละโรงงานแยกข้อมูลกัน หากต้องการย้ายเครื่องให้ใช้ Export JSON / Import JSON ในแอป</p>
+</main>
+<footer>A-Class WebCraft · Code • Share • Inspire · by Supasit.A</footer>
+</body>
+</html>
