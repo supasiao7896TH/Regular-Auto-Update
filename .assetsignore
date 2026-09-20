@@ -3,6 +3,8 @@ node_modules
 .github
 .wrangler
 wrangler.jsonc
+package.json
+package-lock.json
 CLAUDE.md
 agents.md
 context.md
